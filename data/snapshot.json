@@ -1,0 +1,403 @@
+{
+ "generado": "2026-09-17T13:16:15",
+ "lista_precio": 5,
+ "lista_nombre": "Precio de lista 3",
+ "lineas": [
+  "F",
+  "A"
+ ],
+ "n_productos": 65,
+ "sin_precio": [],
+ "productos": [
+  {
+   "cve_art": "CAD01",
+   "descr": "CUBREPOLVO CARTIER",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "CHD01",
+   "descr": "CUBREPOLVO CHANEL",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "DID01",
+   "descr": "CUBREPOLVO DIOR",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "LVD01",
+   "descr": "CUBREPOLVO LOUIS VUITTON",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "PAD01",
+   "descr": "CUBREPOLVO BLANCO PANDORA",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "PAD02",
+   "descr": "CUBREPOLVO NEGRO CH",
+   "linea": "A",
+   "precio": 17.0
+  },
+  {
+   "cve_art": "PAD03",
+   "descr": "CUBREPOLVO CUADRADO",
+   "linea": "A",
+   "precio": 18.0
+  },
+  {
+   "cve_art": "PAD04",
+   "descr": "CUBREPOLVO NEGRO GR",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "SWD01",
+   "descr": "CUBREPOLVO SWAROVSKI",
+   "linea": "A",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "TID01",
+   "descr": "CUBREPOLVO TIFFANY & CO",
+   "linea": "A",
+   "precio": 16.0
+  },
+  {
+   "cve_art": "TOD01",
+   "descr": "CUBREPOLVO TOUS",
+   "linea": "A",
+   "precio": 18.0
+  },
+  {
+   "cve_art": "VCD01",
+   "descr": "CUBREPOLVO VAN CLEEF",
+   "linea": "A",
+   "precio": 30.0
+  },
+  {
+   "cve_art": "CK01",
+   "descr": "KIT CARTIER ANILLO",
+   "linea": "F",
+   "precio": 120.0
+  },
+  {
+   "cve_art": "CK02",
+   "descr": "KIT CARTIER PULSERA",
+   "linea": "F",
+   "precio": 135.0
+  },
+  {
+   "cve_art": "PA01",
+   "descr": "CAJA BLANDA ANILLO GR",
+   "linea": "F",
+   "precio": 60.0
+  },
+  {
+   "cve_art": "PA02",
+   "descr": "CAJA DURA ANILLO",
+   "linea": "F",
+   "precio": 60.0
+  },
+  {
+   "cve_art": "PA03",
+   "descr": "CAJA ROSA ANILLO",
+   "linea": "F",
+   "precio": 60.0
+  },
+  {
+   "cve_art": "PA04",
+   "descr": "CAJA BLANDA ANILLO CH",
+   "linea": "F",
+   "precio": 45.0
+  },
+  {
+   "cve_art": "PB01",
+   "descr": "CAJA BLANDA PULSERA",
+   "linea": "F",
+   "precio": 65.0
+  },
+  {
+   "cve_art": "PB02",
+   "descr": "CAJA DURA PULSERA",
+   "linea": "F",
+   "precio": 65.0
+  },
+  {
+   "cve_art": "PB03",
+   "descr": "CAJA ROSA PULSERA",
+   "linea": "F",
+   "precio": 65.0
+  },
+  {
+   "cve_art": "PB04",
+   "descr": "CAJA DE REGALO PANDORA",
+   "linea": "F",
+   "precio": 115.0
+  },
+  {
+   "cve_art": "PC01",
+   "descr": "BOLSA BLANCA LISA",
+   "linea": "F",
+   "precio": 40.0
+  },
+  {
+   "cve_art": "PC04",
+   "descr": "BOLSA MEDIANA",
+   "linea": "F",
+   "precio": 45.0
+  },
+  {
+   "cve_art": "PD02",
+   "descr": "CUBREPOLVOS NEGRO",
+   "linea": "F",
+   "precio": 17.0
+  },
+  {
+   "cve_art": "PD03",
+   "descr": "CUBREPOLVOS CUADRADO",
+   "linea": "F",
+   "precio": 18.0
+  },
+  {
+   "cve_art": "PD04",
+   "descr": "CUBREPOLVOS NEGRO GR",
+   "linea": "F",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "PE01",
+   "descr": "MANTA PULIDORA",
+   "linea": "F",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "PE02",
+   "descr": "ETIQUETA",
+   "linea": "F",
+   "precio": 3.0
+  },
+  {
+   "cve_art": "PE03",
+   "descr": "TARJETA GRANDE",
+   "linea": "F",
+   "precio": 18.0
+  },
+  {
+   "cve_art": "PE04",
+   "descr": "TARJETA CHICA",
+   "linea": "F",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "PE05",
+   "descr": "INSTRUCTIVO",
+   "linea": "F",
+   "precio": 6.0
+  },
+  {
+   "cve_art": "PE06",
+   "descr": "TARJETA VENTA",
+   "linea": "F",
+   "precio": 5.0
+  },
+  {
+   "cve_art": "PE07",
+   "descr": "LIMA",
+   "linea": "F",
+   "precio": 30.0
+  },
+  {
+   "cve_art": "PE08",
+   "descr": "STICKER BLANCO",
+   "linea": "F",
+   "precio": 5.0
+  },
+  {
+   "cve_art": "PE09",
+   "descr": "PAPEL GRANDE",
+   "linea": "F",
+   "precio": 5.0
+  },
+  {
+   "cve_art": "PE10",
+   "descr": "ETIQUETA CUADRADA",
+   "linea": "F",
+   "precio": 3.0
+  },
+  {
+   "cve_art": "PJ02",
+   "descr": "JOYERO REDONDO",
+   "linea": "F",
+   "precio": 330.0
+  },
+  {
+   "cve_art": "PJ03",
+   "descr": "JOYERO ROSA MOD 1",
+   "linea": "F",
+   "precio": 600.0
+  },
+  {
+   "cve_art": "PJ04",
+   "descr": "JOYERO ROSA MOD 2",
+   "linea": "F",
+   "precio": 600.0
+  },
+  {
+   "cve_art": "PJ05",
+   "descr": "JOYERO ROSA CHICO",
+   "linea": "F",
+   "precio": 600.0
+  },
+  {
+   "cve_art": "PJ06",
+   "descr": "JOYERO RECTANGULAR",
+   "linea": "F",
+   "precio": 600.0
+  },
+  {
+   "cve_art": "PK01",
+   "descr": "KIT BLANDA PULSERA",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "PK07",
+   "descr": "KIT BLANDA ANILLO CHICA",
+   "linea": "F",
+   "precio": 100.0
+  },
+  {
+   "cve_art": "PK08",
+   "descr": "KIT DURA PULSERA 2",
+   "linea": "F",
+   "precio": 135.0
+  },
+  {
+   "cve_art": "PK09",
+   "descr": "KIT DURA ANILLO 2",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "PKI01",
+   "descr": "KIT BLANDA PULSERA",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "PKI02",
+   "descr": "KIT BLANDA ANILLO",
+   "linea": "F",
+   "precio": 115.0
+  },
+  {
+   "cve_art": "PKI03",
+   "descr": "KIT DURA PULSERA",
+   "linea": "F",
+   "precio": 135.0
+  },
+  {
+   "cve_art": "PKI04",
+   "descr": "KIT DURA ANILLO",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "PKI05",
+   "descr": "KIT ROSA PULSERA",
+   "linea": "F",
+   "precio": 130.0
+  },
+  {
+   "cve_art": "PKI06",
+   "descr": "KIT ROSA ANILLO",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "PKI07",
+   "descr": "KIT BLANDA ANILLO CHICA",
+   "linea": "F",
+   "precio": 100.0
+  },
+  {
+   "cve_art": "PKI08",
+   "descr": "KIT DURA PULSERA 2",
+   "linea": "F",
+   "precio": 135.0
+  },
+  {
+   "cve_art": "PKI09",
+   "descr": "KIT DURA ANILLO 2",
+   "linea": "F",
+   "precio": 125.0
+  },
+  {
+   "cve_art": "RD01",
+   "descr": "CUBREPOLVOS TOUS CH",
+   "linea": "F",
+   "precio": 25.0
+  },
+  {
+   "cve_art": "RD02",
+   "descr": "CUBREPOLVOS TOUS GR",
+   "linea": "F",
+   "precio": 18.0
+  },
+  {
+   "cve_art": "SB01",
+   "descr": "CAJA SWAROVSKI PULSERA",
+   "linea": "F",
+   "precio": 60.0
+  },
+  {
+   "cve_art": "SC01",
+   "descr": "BOLSA SWAROVSKI",
+   "linea": "F",
+   "precio": 40.0
+  },
+  {
+   "cve_art": "SD01",
+   "descr": "CUBREPOLVOS SWAROVSKI",
+   "linea": "F",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "SE01",
+   "descr": "CERTIFICADOS SWAROVSKI",
+   "linea": "F",
+   "precio": 15.0
+  },
+  {
+   "cve_art": "SKI01",
+   "descr": "KIT SWAROVSKI PULSERA",
+   "linea": "F",
+   "precio": 80.0
+  },
+  {
+   "cve_art": "UD01",
+   "descr": "CUBREPOLVOS TIFFANY",
+   "linea": "F",
+   "precio": 16.0
+  },
+  {
+   "cve_art": "VK01",
+   "descr": "KIT VAN CLEEF JUEGO",
+   "linea": "F",
+   "precio": 195.0
+  },
+  {
+   "cve_art": "VK02",
+   "descr": "KIT VAN CLEEF PULSERA",
+   "linea": "F",
+   "precio": 250.0
+  }
+ ]
+}
