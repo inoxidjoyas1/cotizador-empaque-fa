@@ -50,47 +50,9 @@ CSS = """
 .mcard.total { background:linear-gradient(135deg,#F4F9F1,#E3F1DA); border-color:#BFE0AC; }
 .mcard .lbl { color:#6b7c90; font-size:.8rem; font-weight:600; text-transform:uppercase; letter-spacing:.4px; }
 .mcard .val { color:var(--ink); font-size:1.7rem; font-weight:800; line-height:1.1; margin-top:2px; }
-.login-card { text-align:center; margin: 6vh auto 1rem; }
-.login-card .logo { font-size:2.4rem; }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
-
-
-# ------------------------------------------------------------------- login
-def check_password() -> bool:
-    """Login simple por contrasena compartida (st.secrets['app_password'])."""
-    if st.session_state.get("auth_ok"):
-        return True
-    correcta = st.secrets.get("app_password", "inoxid2026")  # fallback local
-
-    def _validar():
-        st.session_state["auth_ok"] = (st.session_state.get("pw_in", "") == correcta)
-
-    st.markdown(
-        '<div class="login-card"><div class="logo">📦💎</div>'
-        '<h2>Cotizador de empaque · INOXIDJOYAS</h2>'
-        '<p>Ingresa la contrasena para continuar</p></div>',
-        unsafe_allow_html=True,
-    )
-    c = st.columns([1, 2, 1])[1]
-    with c:
-        st.text_input("Contrasena", type="password", key="pw_in",
-                      on_change=_validar, label_visibility="collapsed",
-                      placeholder="Contrasena")
-        if st.button("Entrar", type="primary", use_container_width=True):
-            _validar()
-        if st.session_state.get("auth_ok"):
-            st.session_state.pop("pw_in", None)
-            st.rerun()
-        if st.session_state.get("auth_ok") is False:
-            st.error("Contrasena incorrecta.")
-        st.caption("Pide la contrasena al administrador.")
-    return False
-
-
-if not check_password():
-    st.stop()
 
 
 # ------------------------------------------------------------------- datos

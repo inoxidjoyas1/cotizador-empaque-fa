@@ -38,19 +38,16 @@ git remote add origin https://github.com/inoxidjoyas1/cotizador-empaque-fa.git
 git push -u origin main
 ```
 
-> `.env` y `.streamlit/secrets.toml` **no** se suben (están en `.gitignore`). Ahí viven
-> las credenciales de SAE y la contraseña de la app.
+> `.env` **no** se sube (está en `.gitignore`). Ahí viven las credenciales de SAE
+> (solo se usan en la PC de la oficina).
 
 ### 2. Publicar la app en Streamlit Community Cloud (gratis)
 1. Entra a https://share.streamlit.io con tu cuenta de GitHub.
 2. **New app** → repo `inoxidjoyas1/cotizador-empaque-fa`, branch `main`, archivo `app.py`.
-3. **Advanced settings → Secrets**, pega:
-   ```toml
-   app_password = "inoxid2026"
-   ```
-   (cámbiala por la que quieras; es la que pedirá la app).
-4. **Deploy**. En ~1 minuto tienes una URL pública tipo
+3. **Deploy**. En ~1 minuto tienes una URL pública tipo
    `https://cotizador-empaque-fa.streamlit.app` para compartir.
+
+> La app es **abierta** (sin contraseña): cualquiera con el link entra directo.
 
 ### 3. Configurar el refresco automático en la PC de la oficina
 
@@ -76,10 +73,9 @@ Administrador de credenciales). Con GitHub usa un **Personal Access Token** como
 
 ## Uso diario (cualquier vendedor)
 1. Abre la URL de la app.
-2. Escribe la contraseña.
-3. En la tabla, elige el **Producto** (busca por clave o nombre) y la **Cantidad**.
+2. En la tabla, elige el **Producto** (busca por clave o nombre) y la **Cantidad**.
    Agrega más renglones con el **+**.
-4. Lee el **Subtotal** y **Total**. Botón **Descargar** para guardar la cotización
+3. Lee el **Subtotal** y **Total**. Botón **Descargar** para guardar la cotización
    (CSV que abre en Excel).
 
 ---
@@ -93,7 +89,6 @@ Administrador de credenciales). Con GitHub usa un **Personal Access Token** como
 | `actualizar_precios.bat` | Lo que corre el Programador de tareas (o doble clic). |
 | `data/snapshot.json` | Foto de precios que lee la app. Se sube a git. |
 | `.env` | Credenciales SAE (**local, no se sube**). Ver `.env.ejemplo`. |
-| `.streamlit/secrets.toml` | Contraseña de la app (**local, no se sube**). |
 
 ## Datos técnicos
 - Productos: `INVE01` filtrado por `LIN_PROD IN ('F','A')` y `STATUS='A'` (65 activos al 2026-09-17).
