@@ -55,7 +55,6 @@ def construir_pdf(meta: dict, filas: list[dict], subtotal: float, total: float) 
 
     story: list = []
     story.append(Paragraph("INOXIDJOYAS", st_h1))
-    story.append(Paragraph("Cotización de empaque (líneas F y A)", st_sub))
     story.append(Spacer(1, 8))
 
     # Bloque de datos cliente / folio / fecha
@@ -65,7 +64,6 @@ def construir_pdf(meta: dict, filas: list[dict], subtotal: float, total: float) 
     if meta.get("folio"):
         datos.append(f"<b>Folio:</b> {meta['folio']}")
     datos.append(f"<b>Fecha:</b> {meta.get('fecha', '')}")
-    datos.append(f"<b>Lista:</b> {meta.get('lista', '')} (sin IVA)")
     story.append(Paragraph(" &nbsp;·&nbsp; ".join(datos), st_meta))
     story.append(Spacer(1, 10))
 
@@ -124,8 +122,8 @@ def construir_pdf(meta: dict, filas: list[dict], subtotal: float, total: float) 
 
     story.append(Spacer(1, 14))
     story.append(Paragraph(
-        "Precios tomados de Aspel SAE. Cotización sin IVA. "
-        "Sujeta a existencia y a cambios sin previo aviso.", st_foot))
+        "Cotización sin IVA. Sujeta a existencia y a cambios sin previo aviso.",
+        st_foot))
 
     doc.build(story)
     return buf.getvalue()
