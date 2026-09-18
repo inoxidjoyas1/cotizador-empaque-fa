@@ -17,6 +17,8 @@ from pathlib import Path
 
 import streamlit as st
 
+import cotizacion_doc
+
 AQUI = Path(__file__).resolve().parent
 SNAPSHOT = AQUI / "data" / "snapshot.json"
 
@@ -184,32 +186,34 @@ st.markdown(
 
 # --------------------------------------------------------------- exportar
 if carrito:
-    with st.expander("Datos de la cotizacion (opcional) y descarga"):
+    with st.expander("📄 Descargar cotización (PDF o imagen)"):
         cliente = st.text_input("Cliente", placeholder="Nombre del cliente")
         folio = st.text_input("Folio", placeholder="COT-001")
         fecha = st.date_input("Fecha", value=dt.date.today(), format="DD/MM/YYYY")
 
-        lineas = []
-        lineas.append("Clave,Descripcion,Linea,Cantidad,P_Unitario,Importe")
-        for cve, c in carrito.items():
-            c = int(c)
-            pu = precio_por_clave.get(cve, 0.0)
-            desc = descr_por_clave.get(cve, "").replace(",", " ")
-            lineas.append(f"{cve},{desc},{linea_por_clave.get(cve, '')},{c},{pu:.2f},{pu * c:.2f}")
-        enc = []
-        if cliente:
-            enc.append(f"Cliente:,{cliente}")
-        if folio:
-            enc.append(f"Folio:,{folio}")
-        enc.append(f"Fecha:,{fecha.strftime('%d/%m/%Y')}")
-        enc.append(f"Lista:,{snap.get('lista_nombre', 'Lista 5')} (sin IVA)")
-        cuerpo = "\n".join(enc) + "\n\n" + "\n".join(lineas)
-        cuerpo += f"\n\nSubtotal:,{subtotal:.2f}\nTotal (sin IVA):,{total:.2f}\n"
-        csv = cuerpo.encode("utf-8-sig")
-        nombre = f"cotizacion_{folio or fecha.strftime('%Y%m%d')}.csv"
-        st.download_button("⬇️ Descargar cotizacion (Excel/CSV)", data=csv,
-                           file_name=nombre, mime="text/csv",
-                           use_container_width=True, type="primary")
+        meta = {"cliente": cliente, "folio": folio,
+                "fecha": fecha.strftime("%d/%m/%Y"),
+                "lista": snap.get("lista_nombre", "Lista 5")}
+        filas = [{
+            "clave": cve, "descr": descr_por_clave.get(cve, ""),
+            "linea": linea_por_clave.get(cve, ""), "cant": int(c),
+            "pu": precio_por_clave.get(cve, 0.0),
+            "importe": precio_por_clave.get(cve, 0.0) * int(c),
+        } for cve, c in carrito.items()]
+        base_nombre = f"cotizacion_{folio or fecha.strftime('%Y%m%d')}"
+
+        pdf_bytes = cotizacion_doc.construir_pdf(meta, filas, subtotal, total)
+        png_bytes = cotizacion_doc.pdf_a_png(pdf_bytes)
+
+        d1, d2 = st.columns(2)
+        d1.download_button("⬇️ PDF", data=pdf_bytes, file_name=f"{base_nombre}.pdf",
+                           mime="application/pdf", use_container_width=True, type="primary")
+        if png_bytes:
+            d2.download_button("🖼️ Imagen", data=png_bytes, file_name=f"{base_nombre}.png",
+                               mime="image/png", use_container_width=True)
+        else:
+            d2.caption("Imagen no disponible")
+        st.caption("La imagen es ideal para enviar por WhatsApp (se previsualiza).")
 
 st.caption(f"Precios de Aspel SAE (lista {snap.get('lista_precio', 5)}), "
            f"snapshot {gen_fmt}. Total sin IVA.")
