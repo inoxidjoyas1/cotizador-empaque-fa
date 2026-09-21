@@ -18,6 +18,7 @@ from pathlib import Path
 import streamlit as st
 
 import cotizacion_doc
+import parser_pedido
 
 AQUI = Path(__file__).resolve().parent
 SNAPSHOT = AQUI / "data" / "snapshot.json"
@@ -124,18 +125,60 @@ if snap.get("sin_precio"):
 
 # ---------------------------------------------------- agregar producto
 st.markdown("### 1) Agrega productos")
-sel = st.selectbox("Producto", opciones, index=None,
-                   placeholder="Escribe clave o nombre…", label_visibility="collapsed")
-c1, c2 = st.columns([1, 2])
-cant_add = c1.number_input("Cantidad", min_value=1, step=1, value=1,
-                           label_visibility="collapsed")
-agregar = c2.button("➕ Agregar al pedido", use_container_width=True, type="primary",
-                    disabled=sel is None)
-if agregar and sel is not None:
-    cve = clave_por_etiqueta[sel]
-    carrito[cve] = carrito.get(cve, 0) + int(cant_add)
-    st.toast(f"Agregado: {cve} ×{int(cant_add)}", icon="✅")
-    st.rerun()
+tab_pegar, tab_buscar = st.tabs(["📋 Pegar pedido", "🔎 Buscar uno por uno"])
+
+# --- Pestaña 1: pegar el pedido y detectar claves/cantidades ---------------
+with tab_pegar:
+    st.caption("Pega el pedido tal cual te lo pasaron. El sistema detecta clave "
+               "o nombre y cantidad. Revisa y confirma.")
+    texto = st.text_area(
+        "Pega el pedido", key="pegar_txt", height=130, label_visibility="collapsed",
+        placeholder="Ej:\n10 PA01\n5 cubrepolvo cartier\nCK02 x8\n3 caja blanda anillo",
+    )
+    if st.button("🔍 Detectar productos", use_container_width=True, type="primary"):
+        ok, malas = parser_pedido.parse_pedido(texto, productos)
+        st.session_state["deteccion"] = (ok, malas)
+
+    det = st.session_state.get("deteccion")
+    if det:
+        ok, malas = det
+        if ok:
+            st.success(f"Detecté {len(ok)} producto(s). Revisa y agrega:")
+            for r in ok:
+                via = "por nombre" if r["como"] == "nombre" else "clave"
+                st.markdown(
+                    f'<div class="item"><div class="nom">'
+                    f'<span class="cve">{r["cve"]}</span> · {r["descr"]} '
+                    f'<span class="uni">({via})</span></div>'
+                    f'<div class="uni">{r["cant"]} × ${r["precio"]:,.2f} '
+                    f'→ <span class="imp">${r["importe"]:,.2f}</span></div></div>',
+                    unsafe_allow_html=True,
+                )
+            if st.button(f"➕ Agregar {len(ok)} al pedido", use_container_width=True,
+                         type="primary", key="add_todos"):
+                for r in ok:
+                    carrito[r["cve"]] = carrito.get(r["cve"], 0) + int(r["cant"])
+                st.session_state.pop("deteccion", None)
+                st.toast(f"Agregados {len(ok)} productos", icon="✅")
+                st.rerun()
+        if malas:
+            st.warning("⚠️ No reconocí: " + "  ·  ".join(malas)
+                       + ".  Revisa la escritura o agrégalos en la pestaña **Buscar**.")
+
+# --- Pestaña 2: selector uno por uno ---------------------------------------
+with tab_buscar:
+    sel = st.selectbox("Producto", opciones, index=None,
+                       placeholder="Escribe clave o nombre…", label_visibility="collapsed")
+    c1, c2 = st.columns([1, 2])
+    cant_add = c1.number_input("Cantidad", min_value=1, step=1, value=1,
+                               label_visibility="collapsed")
+    agregar = c2.button("➕ Agregar al pedido", use_container_width=True, type="primary",
+                        disabled=sel is None)
+    if agregar and sel is not None:
+        cve = clave_por_etiqueta[sel]
+        carrito[cve] = carrito.get(cve, 0) + int(cant_add)
+        st.toast(f"Agregado: {cve} ×{int(cant_add)}", icon="✅")
+        st.rerun()
 
 # ---------------------------------------------------- pedido (tarjetas)
 st.markdown("### 2) Tu pedido")
