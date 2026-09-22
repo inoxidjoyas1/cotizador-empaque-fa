@@ -17,6 +17,7 @@ from pathlib import Path
 
 import streamlit as st
 
+import cajas as cajas_mod
 import cotizacion_doc
 import parser_pedido
 
@@ -100,6 +101,17 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
 .empty .t { font-weight:700; color:var(--ink); margin-top:6px; font-size:1rem; }
 .empty .s { font-size:.86rem; margin-top:2px; }
 
+/* Panel interno de envio */
+.envio { background:linear-gradient(135deg,#FFFCF4,#FBF1DA); border:1px solid #EEDCA9;
+  border-radius:16px; padding:14px 16px; }
+.envio .cap { color:#a07c22; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
+.envio .caja { font-size:1.3rem; font-weight:800; color:#7a5a12; margin-top:2px; }
+.envio .stats { display:flex; gap:10px; margin-top:12px; }
+.envio .st { flex:1; background:#fff; border:1px solid #EFE1BE; border-radius:11px; padding:8px 10px; }
+.envio .st .l { color:#a08a58; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
+.envio .st .v { color:#5a4a20; font-weight:800; font-size:1.02rem; margin-top:1px; }
+.envio .note { color:#a07c22; font-size:.78rem; margin-top:10px; }
+
 /* Barra de total fija abajo */
 .sticky-wrap { position:fixed; left:0; right:0; bottom:0; z-index:999; padding:0 10px 10px; pointer-events:none; }
 .sticky-bar { max-width:552px; margin:0 auto; pointer-events:auto;
@@ -137,6 +149,16 @@ if not snap or not snap.get("productos"):
 productos = snap["productos"]
 precio_por_clave = {p["cve_art"]: (p["precio"] or 0.0) for p in productos}
 descr_por_clave = {p["cve_art"]: p["descr"] for p in productos}
+pesovol_por_clave = {p["cve_art"]: p.get("peso_vol") for p in productos}
+pesoreal_por_clave = {p["cve_art"]: p.get("peso_real") for p in productos}
+cajas_cat = snap.get("cajas", [])
+factor_llenado = snap.get("factor_llenado", 0.70)
+
+
+def fmt_peso(kg: float | None) -> str:
+    if not kg:
+        return "—"
+    return f"{kg * 1000:.0f} g" if kg < 1 else f"{kg:.2f} kg"
 etiqueta = {p["cve_art"]: f"{p['cve_art']} - {p['descr']}".strip(" -") for p in productos}
 clave_por_etiqueta = {v: k for k, v in etiqueta.items()}
 opciones = sorted(etiqueta.values())
@@ -248,6 +270,35 @@ else:
 # --------------------------------------------------------------- totales
 piezas = sum(int(c) for c in carrito.values())
 total = sum(precio_por_clave.get(cve, 0.0) * int(c) for cve, c in carrito.items())
+
+# --------------------------------------------------- envio (uso interno)
+if carrito and cajas_cat:
+    items = [{"peso_vol": pesovol_por_clave.get(cve),
+              "peso_real": pesoreal_por_clave.get(cve), "cant": int(c)}
+             for cve, c in carrito.items()]
+    rec = cajas_mod.recomendar(items, cajas_cat, factor_llenado)
+    caja_txt = rec["caja"]["nombre"] if rec["caja"] else "—"
+    notas = []
+    if rec["excede"]:
+        notas.append("⚠️ El pedido excede la caja más grande: probablemente se "
+                     "necesiten 2 o más cajas.")
+    if rec["sin_peso"]:
+        notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
+                     "cálculo es aproximado.")
+    nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
+    titulo("Envío", "uso interno")
+    st.markdown(
+        f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
+        f'<div class="caja">{caja_txt}</div>'
+        f'<div class="stats">'
+        f'<div class="st"><div class="l">Volumétrico</div>'
+        f'<div class="v">{fmt_peso(rec["total_vol"])}</div></div>'
+        f'<div class="st"><div class="l">Gramaje (real)</div>'
+        f'<div class="v">{fmt_peso(rec["total_real"])}</div></div>'
+        f'<div class="st"><div class="l">Peso a tomar</div>'
+        f'<div class="v">{fmt_peso(rec["facturable"])}</div></div>'
+        f'</div>{nota_html}</div>',
+        unsafe_allow_html=True)
 
 # --------------------------------------------------------------- exportar
 if carrito:

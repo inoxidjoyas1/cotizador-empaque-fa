@@ -19,14 +19,23 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 import db_sae
+import pesos_cajas
 
 AQUI = Path(__file__).resolve().parent
 SNAPSHOT = AQUI / "data" / "snapshot.json"
+
+# Excel de control de cajas (pesos + catalogo de cajas). Ruta configurable en
+# el .env con EXCEL_CAJAS; por defecto la carpeta de control de INOXIDJOYAS.
+EXCEL_CAJAS = os.getenv(
+    "EXCEL_CAJAS",
+    r"C:\Users\useer\Desktop\CONTROL INOXID 2026\CAJAS 02-07.xlsx",
+)
 
 
 def _log(msg: str) -> None:
@@ -57,6 +66,30 @@ def construir_snapshot() -> dict:
         )
 
     sin_precio = [p["cve_art"] for p in productos if p["precio"] is None]
+
+    # Peso volumetrico / real por producto + catalogo de cajas, desde el Excel.
+    cajas: list = []
+    sin_peso: list = []
+    try:
+        pesos, cajas = pesos_cajas.leer(EXCEL_CAJAS)
+        for p in productos:
+            info = pesos.get(p["cve_art"].upper())
+            p["peso_vol"] = info.get("peso_vol") if info else None
+            p["peso_real"] = info.get("peso_real") if info else None
+            if not info:
+                sin_peso.append(p["cve_art"])
+        _log(f"Excel de cajas OK — {len(pesos)} pesos, {len(cajas)} cajas "
+             f"({len(sin_peso)} productos sin peso).")
+    except FileNotFoundError:
+        _log(f"AVISO: no encontre el Excel de cajas en {EXCEL_CAJAS}. "
+             "El snapshot va SIN pesos ni cajas (la app no mostrara envio).")
+        for p in productos:
+            p["peso_vol"] = p["peso_real"] = None
+    except Exception as e:  # noqa: BLE001
+        _log(f"AVISO: no pude leer el Excel de cajas ({str(e)[:90]}). Va sin pesos.")
+        for p in productos:
+            p["peso_vol"] = p["peso_real"] = None
+
     return {
         "generado": dt.datetime.now().isoformat(timespec="seconds"),
         "lista_precio": db_sae.LISTA_PRECIO,
@@ -64,6 +97,9 @@ def construir_snapshot() -> dict:
         "lineas": list(db_sae.LINEAS),
         "n_productos": len(productos),
         "sin_precio": sin_precio,
+        "sin_peso": sin_peso,
+        "cajas": cajas,
+        "factor_llenado": pesos_cajas.FACTOR_LLENADO,
         "productos": productos,
     }
 

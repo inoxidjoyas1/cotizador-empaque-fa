@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-17T13:40:32",
+ "generado": "2026-09-22T15:22:50",
  "lista_precio": 5,
  "lista_nombre": "Precio de lista 3",
  "lineas": [
@@ -8,396 +8,631 @@
  ],
  "n_productos": 65,
  "sin_precio": [],
+ "sin_peso": [
+  "PD02",
+  "PD03",
+  "PD04",
+  "PE10",
+  "PJ02",
+  "PJ03",
+  "PK01",
+  "PK07",
+  "PK08",
+  "PK09",
+  "PKI08",
+  "PKI09",
+  "RD02",
+  "SB01",
+  "SC01",
+  "SD01",
+  "SE01",
+  "SKI01",
+  "UD01"
+ ],
+ "cajas": [
+  {
+   "nombre": "CAJA 1 KG",
+   "l": 21.0,
+   "a": 17.0,
+   "h": 12.0,
+   "extra": 0.114,
+   "ext_vol": 0.8568,
+   "int_vol": 0.733
+  },
+  {
+   "nombre": "CAJA PIZZA 1 KG",
+   "l": 31.0,
+   "a": 30.0,
+   "h": 5.0,
+   "extra": 0.115,
+   "ext_vol": 0.93,
+   "int_vol": 0.74
+  },
+  {
+   "nombre": "CAJA 1.5 KG",
+   "l": 26.0,
+   "a": 21.0,
+   "h": 17.0,
+   "extra": 0.165,
+   "ext_vol": 1.355,
+   "int_vol": 1.21
+  },
+  {
+   "nombre": "CAJA 1.7",
+   "l": 31.0,
+   "a": 24.0,
+   "h": 12.0,
+   "extra": 0.185,
+   "ext_vol": 1.785,
+   "int_vol": 1.569
+  },
+  {
+   "nombre": "CAJA 2 KG B",
+   "l": 21.0,
+   "a": 21.0,
+   "h": 22.0,
+   "extra": 0.175,
+   "ext_vol": 1.94,
+   "int_vol": 1.73
+  },
+  {
+   "nombre": "CAJA 2.7 KG",
+   "l": 31.0,
+   "a": 26.0,
+   "h": 17.0,
+   "extra": 0.223,
+   "ext_vol": 2.74,
+   "int_vol": 2.465
+  },
+  {
+   "nombre": "CAJA 3.4 KG",
+   "l": 31.0,
+   "a": 26.0,
+   "h": 21.0,
+   "extra": 0.265,
+   "ext_vol": 3.385,
+   "int_vol": 3.074
+  },
+  {
+   "nombre": "CAJA 5 KG",
+   "l": 33.0,
+   "a": 34.0,
+   "h": 22.0,
+   "extra": 0.32,
+   "ext_vol": 4.936,
+   "int_vol": 4.532
+  },
+  {
+   "nombre": "CAJA 6 KG",
+   "l": 41.0,
+   "a": 31.0,
+   "h": 22.0,
+   "extra": 0.35,
+   "ext_vol": 5.592,
+   "int_vol": 5.39
+  }
+ ],
+ "factor_llenado": 0.7,
  "productos": [
   {
    "cve_art": "CAD01",
    "descr": "CUBREPOLVO CARTIER",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.0064,
+   "peso_real": 0.00368
   },
   {
    "cve_art": "CHD01",
    "descr": "CUBREPOLVO CHANEL",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.0073,
+   "peso_real": 0.00435
   },
   {
    "cve_art": "DID01",
    "descr": "CUBREPOLVO DIOR",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.0064,
+   "peso_real": 0.00264
   },
   {
    "cve_art": "LVD01",
    "descr": "CUBREPOLVO LOUIS VUITTON",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.0077,
+   "peso_real": 0.00368
   },
   {
    "cve_art": "PAD01",
    "descr": "CUBREPOLVO BLANCO PANDORA",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.01089,
+   "peso_real": 0.00581
   },
   {
    "cve_art": "PAD02",
    "descr": "CUBREPOLVO NEGRO CH",
    "linea": "A",
-   "precio": 17.0
+   "precio": 17.0,
+   "peso_vol": 0.00537,
+   "peso_real": 0.00454
   },
   {
    "cve_art": "PAD03",
    "descr": "CUBREPOLVO CUADRADO",
    "linea": "A",
-   "precio": 18.0
+   "precio": 18.0,
+   "peso_vol": 0.00458,
+   "peso_real": 0.00506
   },
   {
    "cve_art": "PAD04",
    "descr": "CUBREPOLVO NEGRO GR",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.00635,
+   "peso_real": 0.00455
   },
   {
    "cve_art": "SWD01",
    "descr": "CUBREPOLVO SWAROVSKI",
    "linea": "A",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.0063,
+   "peso_real": 0.00392
   },
   {
    "cve_art": "TID01",
    "descr": "CUBREPOLVO TIFFANY & CO",
    "linea": "A",
-   "precio": 16.0
+   "precio": 16.0,
+   "peso_vol": 0.00773,
+   "peso_real": 0.005
   },
   {
    "cve_art": "TOD01",
    "descr": "CUBREPOLVO TOUS",
    "linea": "A",
-   "precio": 18.0
+   "precio": 18.0,
+   "peso_vol": 0.01661,
+   "peso_real": 0.00677
   },
   {
    "cve_art": "VCD01",
    "descr": "CUBREPOLVO VAN CLEEF",
    "linea": "A",
-   "precio": 30.0
+   "precio": 30.0,
+   "peso_vol": 0.014,
+   "peso_real": 0.01035
   },
   {
    "cve_art": "CK01",
    "descr": "KIT CARTIER ANILLO",
    "linea": "F",
-   "precio": 120.0
+   "precio": 120.0,
+   "peso_vol": 0.04779,
+   "peso_real": 0.06941
   },
   {
    "cve_art": "CK02",
    "descr": "KIT CARTIER PULSERA",
    "linea": "F",
-   "precio": 135.0
+   "precio": 135.0,
+   "peso_vol": 0.08571,
+   "peso_real": 0.12967
   },
   {
    "cve_art": "PA01",
    "descr": "CAJA BLANDA ANILLO GR",
    "linea": "F",
-   "precio": 60.0
+   "precio": 60.0,
+   "peso_vol": 0.02572,
+   "peso_real": 0.026
   },
   {
    "cve_art": "PA02",
    "descr": "CAJA DURA ANILLO",
    "linea": "F",
-   "precio": 60.0
+   "precio": 60.0,
+   "peso_vol": 0.0205,
+   "peso_real": 0.041
   },
   {
    "cve_art": "PA03",
    "descr": "CAJA ROSA ANILLO",
    "linea": "F",
-   "precio": 60.0
+   "precio": 60.0,
+   "peso_vol": 0.02,
+   "peso_real": 0.038
   },
   {
    "cve_art": "PA04",
    "descr": "CAJA BLANDA ANILLO CH",
    "linea": "F",
-   "precio": 45.0
+   "precio": 45.0,
+   "peso_vol": 0.0204,
+   "peso_real": 0.02084
   },
   {
    "cve_art": "PB01",
    "descr": "CAJA BLANDA PULSERA",
    "linea": "F",
-   "precio": 65.0
+   "precio": 65.0,
+   "peso_vol": 0.0648,
+   "peso_real": 0.046
   },
   {
    "cve_art": "PB02",
    "descr": "CAJA DURA PULSERA",
    "linea": "F",
-   "precio": 65.0
+   "precio": 65.0,
+   "peso_vol": 0.06966,
+   "peso_real": 0.086
   },
   {
    "cve_art": "PB03",
    "descr": "CAJA ROSA PULSERA",
    "linea": "F",
-   "precio": 65.0
+   "precio": 65.0,
+   "peso_vol": 0.06966,
+   "peso_real": 0.0922
   },
   {
    "cve_art": "PB04",
    "descr": "CAJA DE REGALO PANDORA",
    "linea": "F",
-   "precio": 115.0
+   "precio": 115.0,
+   "peso_vol": 0.17856,
+   "peso_real": 0.16945
   },
   {
    "cve_art": "PC01",
    "descr": "BOLSA BLANCA LISA",
    "linea": "F",
-   "precio": 40.0
+   "precio": 40.0,
+   "peso_vol": 0.02071,
+   "peso_real": 0.02
   },
   {
    "cve_art": "PC04",
    "descr": "BOLSA MEDIANA",
    "linea": "F",
-   "precio": 45.0
+   "precio": 45.0,
+   "peso_vol": 0.1032,
+   "peso_real": 0.04462
   },
   {
    "cve_art": "PD02",
    "descr": "CUBREPOLVOS NEGRO",
    "linea": "F",
-   "precio": 17.0
+   "precio": 17.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PD03",
    "descr": "CUBREPOLVOS CUADRADO",
    "linea": "F",
-   "precio": 18.0
+   "precio": 18.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PD04",
    "descr": "CUBREPOLVOS NEGRO GR",
    "linea": "F",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PE01",
    "descr": "MANTA PULIDORA",
    "linea": "F",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.00286,
+   "peso_real": 0.005
   },
   {
    "cve_art": "PE02",
    "descr": "ETIQUETA",
    "linea": "F",
-   "precio": 3.0
+   "precio": 3.0,
+   "peso_vol": 0.00018,
+   "peso_real": 0.00053
   },
   {
    "cve_art": "PE03",
    "descr": "TARJETA GRANDE",
    "linea": "F",
-   "precio": 18.0
+   "precio": 18.0,
+   "peso_vol": 0.0041,
+   "peso_real": 0.00916
   },
   {
    "cve_art": "PE04",
    "descr": "TARJETA CHICA",
    "linea": "F",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": 0.00172,
+   "peso_real": 0.00474
   },
   {
    "cve_art": "PE05",
    "descr": "INSTRUCTIVO",
    "linea": "F",
-   "precio": 6.0
+   "precio": 6.0,
+   "peso_vol": 0.01445,
+   "peso_real": 0.00316
   },
   {
    "cve_art": "PE06",
    "descr": "TARJETA VENTA",
    "linea": "F",
-   "precio": 5.0
+   "precio": 5.0,
+   "peso_vol": 0.00089,
+   "peso_real": 0.01193
   },
   {
    "cve_art": "PE07",
    "descr": "LIMA",
    "linea": "F",
-   "precio": 30.0
+   "precio": 30.0,
+   "peso_vol": 0.00576,
+   "peso_real": 0.0079
   },
   {
    "cve_art": "PE08",
    "descr": "STICKER BLANCO",
    "linea": "F",
-   "precio": 5.0
+   "precio": 5.0,
+   "peso_vol": 0.0004,
+   "peso_real": 0.00126
   },
   {
    "cve_art": "PE09",
    "descr": "PAPEL GRANDE",
    "linea": "F",
-   "precio": 5.0
+   "precio": 5.0,
+   "peso_vol": 0.01352,
+   "peso_real": 0.0004
   },
   {
    "cve_art": "PE10",
    "descr": "ETIQUETA CUADRADA",
    "linea": "F",
-   "precio": 3.0
+   "precio": 3.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PJ02",
    "descr": "JOYERO REDONDO",
    "linea": "F",
-   "precio": 330.0
+   "precio": 330.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PJ03",
    "descr": "JOYERO ROSA MOD 1",
    "linea": "F",
-   "precio": 600.0
+   "precio": 600.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PJ04",
    "descr": "JOYERO ROSA MOD 2",
    "linea": "F",
-   "precio": 600.0
+   "precio": 600.0,
+   "peso_vol": 0.4032,
+   "peso_real": 0.482
   },
   {
    "cve_art": "PJ05",
    "descr": "JOYERO ROSA CHICO",
    "linea": "F",
-   "precio": 600.0
+   "precio": 600.0,
+   "peso_vol": 0.2664,
+   "peso_real": 0.41
   },
   {
    "cve_art": "PJ06",
    "descr": "JOYERO RECTANGULAR",
    "linea": "F",
-   "precio": 600.0
+   "precio": 600.0,
+   "peso_vol": 0.4056,
+   "peso_real": 0.488
   },
   {
    "cve_art": "PK01",
    "descr": "KIT BLANDA PULSERA",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PK07",
    "descr": "KIT BLANDA ANILLO CHICA",
    "linea": "F",
-   "precio": 100.0
+   "precio": 100.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PK08",
    "descr": "KIT DURA PULSERA 2",
    "linea": "F",
-   "precio": 135.0
+   "precio": 135.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PK09",
    "descr": "KIT DURA ANILLO 2",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PKI01",
    "descr": "KIT BLANDA PULSERA",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": 0.18601,
+   "peso_real": 0.10144
   },
   {
    "cve_art": "PKI02",
    "descr": "KIT BLANDA ANILLO",
    "linea": "F",
-   "precio": 115.0
+   "precio": 115.0,
+   "peso_vol": 0.05052,
+   "peso_real": 0.05516
   },
   {
    "cve_art": "PKI03",
    "descr": "KIT DURA PULSERA",
    "linea": "F",
-   "precio": 135.0
+   "precio": 135.0,
+   "peso_vol": 0.1053,
+   "peso_real": 0.14046
   },
   {
    "cve_art": "PKI04",
    "descr": "KIT DURA ANILLO",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": 0.05776,
+   "peso_real": 0.09546
   },
   {
    "cve_art": "PKI05",
    "descr": "KIT ROSA PULSERA",
    "linea": "F",
-   "precio": 130.0
+   "precio": 130.0,
+   "peso_vol": 0.1107,
+   "peso_real": 0.14162
   },
   {
    "cve_art": "PKI06",
    "descr": "KIT ROSA ANILLO",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": 0.06107,
+   "peso_real": 0.09019
   },
   {
    "cve_art": "PKI07",
    "descr": "KIT BLANDA ANILLO CHICA",
    "linea": "F",
-   "precio": 100.0
+   "precio": 100.0,
+   "peso_vol": 0.05913,
+   "peso_real": 0.05166
   },
   {
    "cve_art": "PKI08",
    "descr": "KIT DURA PULSERA 2",
    "linea": "F",
-   "precio": 135.0
+   "precio": 135.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "PKI09",
    "descr": "KIT DURA ANILLO 2",
    "linea": "F",
-   "precio": 125.0
+   "precio": 125.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "RD01",
    "descr": "CUBREPOLVOS TOUS CH",
    "linea": "F",
-   "precio": 25.0
+   "precio": 25.0,
+   "peso_vol": 0.00442,
+   "peso_real": 0.00759
   },
   {
    "cve_art": "RD02",
    "descr": "CUBREPOLVOS TOUS GR",
    "linea": "F",
-   "precio": 18.0
+   "precio": 18.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "SB01",
    "descr": "CAJA SWAROVSKI PULSERA",
    "linea": "F",
-   "precio": 60.0
+   "precio": 60.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "SC01",
    "descr": "BOLSA SWAROVSKI",
    "linea": "F",
-   "precio": 40.0
+   "precio": 40.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "SD01",
    "descr": "CUBREPOLVOS SWAROVSKI",
    "linea": "F",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "SE01",
    "descr": "CERTIFICADOS SWAROVSKI",
    "linea": "F",
-   "precio": 15.0
+   "precio": 15.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "SKI01",
    "descr": "KIT SWAROVSKI PULSERA",
    "linea": "F",
-   "precio": 80.0
+   "precio": 80.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "UD01",
    "descr": "CUBREPOLVOS TIFFANY",
    "linea": "F",
-   "precio": 16.0
+   "precio": 16.0,
+   "peso_vol": null,
+   "peso_real": null
   },
   {
    "cve_art": "VK01",
    "descr": "KIT VAN CLEEF JUEGO",
    "linea": "F",
-   "precio": 195.0
+   "precio": 195.0,
+   "peso_vol": 0.11033,
+   "peso_real": 0.17894
   },
   {
    "cve_art": "VK02",
    "descr": "KIT VAN CLEEF PULSERA",
    "linea": "F",
-   "precio": 250.0
+   "precio": 250.0,
+   "peso_vol": 0.2185,
+   "peso_real": 0.384
   }
  ]
 }
