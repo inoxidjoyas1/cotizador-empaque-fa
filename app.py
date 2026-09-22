@@ -25,7 +25,7 @@ AQUI = Path(__file__).resolve().parent
 SNAPSHOT = AQUI / "data" / "snapshot.json"
 
 st.set_page_config(page_title="Cotizador de empaque - INOXIDJOYAS",
-                   page_icon="📦", layout="centered",
+                   page_icon="📦", layout="wide",
                    initial_sidebar_state="collapsed")
 
 # --------------------------------------------------------------------- estilos
@@ -40,8 +40,10 @@ html, body, [class*="css"], .stMarkdown, button, input, textarea, select {
   font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;
 }
 .stApp { background:#F5F8FC; }
-.block-container { padding-top:.7rem; padding-bottom:7rem; max-width:560px; }
+.block-container { padding-top:.7rem; padding-bottom:7rem; max-width:1040px; }
 #MainMenu, footer, header {visibility:hidden;}
+/* En PC los dos paneles quedan pegados arriba; en celular se apilan solos. */
+div[data-testid="stHorizontalBlock"] { align-items:flex-start; }
 
 /* Botones */
 .stButton > button, .stDownloadButton > button {
@@ -114,7 +116,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
 
 /* Barra de total fija abajo */
 .sticky-wrap { position:fixed; left:0; right:0; bottom:0; z-index:999; padding:0 10px 10px; pointer-events:none; }
-.sticky-bar { max-width:552px; margin:0 auto; pointer-events:auto;
+.sticky-bar { max-width:1024px; margin:0 auto; pointer-events:auto;
   background:linear-gradient(120deg,var(--nav1),var(--nav2)); color:#fff;
   display:flex; justify-content:space-between; align-items:center;
   padding:14px 20px; border-radius:16px; box-shadow:0 8px 24px rgba(20,40,70,.3); }
@@ -180,152 +182,157 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ---------------------------------------------------- agregar producto
-titulo("Agregar productos")
-tab_pegar, tab_buscar = st.tabs(["📋 Pegar pedido", "🔎 Buscar"])
-
-with tab_pegar:
-    texto = st.text_area(
-        "Pega el pedido", key="pegar_txt", height=140, label_visibility="collapsed",
-        placeholder="Pega aquí el pedido, por ejemplo:\n\n10 PA01\n5 cubrepolvo cartier\nCK02 x8",
-    )
-    if st.button("Detectar productos", use_container_width=True, type="primary"):
-        ok, malas = parser_pedido.parse_pedido(texto, productos)
-        st.session_state["deteccion"] = (ok, malas)
-
-    det = st.session_state.get("deteccion")
-    if det:
-        ok, malas = det
-        if ok:
-            for r in ok:
-                with st.container(border=True):
-                    a, b = st.columns([3, 1.1])
-                    a.markdown(
-                        f'<div class="itxt"><span class="cve">{r["cve"]}</span>'
-                        f'<span class="nom">{r["descr"]}</span>'
-                        f'<div class="uni">{r["cant"]} × ${r["precio"]:,.2f}</div></div>',
-                        unsafe_allow_html=True)
-                    b.markdown(f'<div class="itxt"><div class="imp">${r["importe"]:,.2f}</div></div>',
-                               unsafe_allow_html=True)
-            if st.button(f"Agregar {len(ok)} al pedido", use_container_width=True,
-                         type="primary", key="add_todos"):
-                for r in ok:
-                    carrito[r["cve"]] = carrito.get(r["cve"], 0) + int(r["cant"])
-                st.session_state.pop("deteccion", None)
-                st.rerun()
-        if malas:
-            st.warning("No reconocí: " + "  ·  ".join(malas))
-
-with tab_buscar:
-    sel = st.selectbox("Producto", opciones, index=None,
-                       placeholder="Escribe clave o nombre…", label_visibility="collapsed")
-    c1, c2 = st.columns([1, 2])
-    cant_add = c1.number_input("Cantidad", min_value=1, step=1, value=1,
-                               label_visibility="collapsed")
-    if c2.button("Agregar al pedido", use_container_width=True, type="primary",
-                 disabled=sel is None) and sel is not None:
-        cve = clave_por_etiqueta[sel]
-        carrito[cve] = carrito.get(cve, 0) + int(cant_add)
-        st.rerun()
-
-# ---------------------------------------------------- pedido (tarjetas)
+# Totales (se calculan antes de pintar, para los paneles y la barra fija).
 n_prod = len(carrito)
-titulo("Tu pedido", f"{n_prod} producto(s)" if n_prod else "")
-if not carrito:
-    st.markdown(
-        '<div class="empty"><div class="em">🧾</div>'
-        '<div class="t">Tu pedido está vacío</div>'
-        '<div class="s">Pega tu pedido o busca un producto arriba.</div></div>',
-        unsafe_allow_html=True)
-else:
-    for cve in list(carrito.keys()):
-        precio = precio_por_clave.get(cve, 0.0)
-        cant = int(carrito[cve])
-        with st.container(border=True):
-            a, b = st.columns([3, 1.1])
-            a.markdown(
-                f'<div class="itxt"><span class="cve">{cve}</span>'
-                f'<span class="nom">{descr_por_clave.get(cve, "")}</span>'
-                f'<div class="uni">${precio:,.2f} c/u</div></div>',
-                unsafe_allow_html=True)
-            b.markdown(f'<div class="itxt"><div class="imp">${precio * cant:,.2f}</div></div>',
-                       unsafe_allow_html=True)
-            ca, cb = st.columns([2, 1])
-            nueva = ca.number_input(f"Cantidad {cve}", min_value=1, step=1, value=cant,
-                                    key=f"q_{cve}", label_visibility="collapsed")
-            if int(nueva) != cant:
-                carrito[cve] = int(nueva)
-                st.rerun()
-            if cb.button("Quitar", key=f"del_{cve}", use_container_width=True):
-                carrito.pop(cve, None)
-                st.session_state.pop(f"q_{cve}", None)
-                st.rerun()
-
-    if st.button("Vaciar pedido", use_container_width=True):
-        st.session_state["carrito"] = {}
-        for k in [k for k in st.session_state if k.startswith("q_")]:
-            st.session_state.pop(k, None)
-        st.rerun()
-
-# --------------------------------------------------------------- totales
 piezas = sum(int(c) for c in carrito.values())
 total = sum(precio_por_clave.get(cve, 0.0) * int(c) for cve, c in carrito.items())
 
-# --------------------------------------------------- envio (uso interno)
-if carrito and cajas_cat:
-    items = [{"peso_vol": pesovol_por_clave.get(cve),
-              "peso_real": pesoreal_por_clave.get(cve), "cant": int(c)}
-             for cve, c in carrito.items()]
-    rec = cajas_mod.recomendar(items, cajas_cat, factor_llenado)
-    caja_txt = rec["caja"]["nombre"] if rec["caja"] else "—"
-    notas = []
-    if rec["excede"]:
-        notas.append("⚠️ El pedido excede la caja más grande: probablemente se "
-                     "necesiten 2 o más cajas.")
-    if rec["sin_peso"]:
-        notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
-                     "cálculo es aproximado.")
-    nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
-    titulo("Envío", "uso interno")
-    st.markdown(
-        f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
-        f'<div class="caja">{caja_txt}</div>'
-        f'<div class="stats">'
-        f'<div class="st"><div class="l">Volumétrico</div>'
-        f'<div class="v">{fmt_peso(rec["total_vol"])}</div></div>'
-        f'<div class="st"><div class="l">Gramaje (real)</div>'
-        f'<div class="v">{fmt_peso(rec["total_real"])}</div></div>'
-        f'<div class="st"><div class="l">Peso a tomar</div>'
-        f'<div class="v">{fmt_peso(rec["facturable"])}</div></div>'
-        f'</div>{nota_html}</div>',
-        unsafe_allow_html=True)
+# Dos paneles: en PC lado a lado, en celular se apilan solos.
+col_add, col_ped = st.columns(2, gap="large")
 
-# --------------------------------------------------------------- exportar
-if carrito:
-    with st.expander("📄 Descargar cotización (PDF o imagen)"):
-        cliente = st.text_input("Cliente", placeholder="Nombre del cliente")
-        folio = st.text_input("Folio", placeholder="COT-001")
-        fecha = st.date_input("Fecha", value=dt.date.today(), format="DD/MM/YYYY")
+# ============================ IZQUIERDA: agregar ============================
+with col_add:
+    titulo("Agregar productos")
+    tab_pegar, tab_buscar = st.tabs(["📋 Pegar pedido", "🔎 Buscar"])
 
-        meta = {"cliente": cliente, "folio": folio,
-                "fecha": fecha.strftime("%d/%m/%Y"),
-                "lista": snap.get("lista_nombre", "Lista 5")}
-        filas = [{
-            "clave": cve, "descr": descr_por_clave.get(cve, ""), "linea": "",
-            "cant": int(c), "pu": precio_por_clave.get(cve, 0.0),
-            "importe": precio_por_clave.get(cve, 0.0) * int(c),
-        } for cve, c in carrito.items()]
-        base_nombre = f"cotizacion_{folio or fecha.strftime('%Y%m%d')}"
+    with tab_pegar:
+        texto = st.text_area(
+            "Pega el pedido", key="pegar_txt", height=140, label_visibility="collapsed",
+            placeholder="Pega aquí el pedido, por ejemplo:\n\n10 PA01\n5 cubrepolvo cartier\nCK02 x8",
+        )
+        if st.button("Detectar productos", use_container_width=True, type="primary"):
+            ok, malas = parser_pedido.parse_pedido(texto, productos)
+            st.session_state["deteccion"] = (ok, malas)
 
-        pdf_bytes = cotizacion_doc.construir_pdf(meta, filas, total, total)
-        png_bytes = cotizacion_doc.pdf_a_png(pdf_bytes)
+        det = st.session_state.get("deteccion")
+        if det:
+            ok, malas = det
+            if ok:
+                for r in ok:
+                    with st.container(border=True):
+                        a, b = st.columns([3, 1.1])
+                        a.markdown(
+                            f'<div class="itxt"><span class="cve">{r["cve"]}</span>'
+                            f'<span class="nom">{r["descr"]}</span>'
+                            f'<div class="uni">{r["cant"]} × ${r["precio"]:,.2f}</div></div>',
+                            unsafe_allow_html=True)
+                        b.markdown(f'<div class="itxt"><div class="imp">${r["importe"]:,.2f}</div></div>',
+                                   unsafe_allow_html=True)
+                if st.button(f"Agregar {len(ok)} al pedido", use_container_width=True,
+                             type="primary", key="add_todos"):
+                    for r in ok:
+                        carrito[r["cve"]] = carrito.get(r["cve"], 0) + int(r["cant"])
+                    st.session_state.pop("deteccion", None)
+                    st.rerun()
+            if malas:
+                st.warning("No reconocí: " + "  ·  ".join(malas))
 
-        d1, d2 = st.columns(2)
-        d1.download_button("⬇️ PDF", data=pdf_bytes, file_name=f"{base_nombre}.pdf",
-                           mime="application/pdf", use_container_width=True, type="primary")
-        if png_bytes:
-            d2.download_button("🖼️ Imagen", data=png_bytes, file_name=f"{base_nombre}.png",
-                               mime="image/png", use_container_width=True)
+    with tab_buscar:
+        sel = st.selectbox("Producto", opciones, index=None,
+                           placeholder="Escribe clave o nombre…", label_visibility="collapsed")
+        c1, c2 = st.columns([1, 2])
+        cant_add = c1.number_input("Cantidad", min_value=1, step=1, value=1,
+                                   label_visibility="collapsed")
+        if c2.button("Agregar al pedido", use_container_width=True, type="primary",
+                     disabled=sel is None) and sel is not None:
+            cve = clave_por_etiqueta[sel]
+            carrito[cve] = carrito.get(cve, 0) + int(cant_add)
+            st.rerun()
+
+# =================== DERECHA: pedido + envio + descarga ====================
+with col_ped:
+    titulo("Tu pedido", f"{n_prod} producto(s)" if n_prod else "")
+    if not carrito:
+        st.markdown(
+            '<div class="empty"><div class="em">🧾</div>'
+            '<div class="t">Tu pedido está vacío</div>'
+            '<div class="s">Pega tu pedido o busca un producto arriba.</div></div>',
+            unsafe_allow_html=True)
+    else:
+        for cve in list(carrito.keys()):
+            precio = precio_por_clave.get(cve, 0.0)
+            cant = int(carrito[cve])
+            with st.container(border=True):
+                a, b = st.columns([3, 1.1])
+                a.markdown(
+                    f'<div class="itxt"><span class="cve">{cve}</span>'
+                    f'<span class="nom">{descr_por_clave.get(cve, "")}</span>'
+                    f'<div class="uni">${precio:,.2f} c/u</div></div>',
+                    unsafe_allow_html=True)
+                b.markdown(f'<div class="itxt"><div class="imp">${precio * cant:,.2f}</div></div>',
+                           unsafe_allow_html=True)
+                ca, cb = st.columns([2, 1])
+                nueva = ca.number_input(f"Cantidad {cve}", min_value=1, step=1, value=cant,
+                                        key=f"q_{cve}", label_visibility="collapsed")
+                if int(nueva) != cant:
+                    carrito[cve] = int(nueva)
+                    st.rerun()
+                if cb.button("Quitar", key=f"del_{cve}", use_container_width=True):
+                    carrito.pop(cve, None)
+                    st.session_state.pop(f"q_{cve}", None)
+                    st.rerun()
+
+        if st.button("Vaciar pedido", use_container_width=True):
+            st.session_state["carrito"] = {}
+            for k in [k for k in st.session_state if k.startswith("q_")]:
+                st.session_state.pop(k, None)
+            st.rerun()
+
+    # ------------------------------------------ envio (uso interno)
+    if carrito and cajas_cat:
+        items = [{"peso_vol": pesovol_por_clave.get(cve),
+                  "peso_real": pesoreal_por_clave.get(cve), "cant": int(c)}
+                 for cve, c in carrito.items()]
+        rec = cajas_mod.recomendar(items, cajas_cat, factor_llenado)
+        caja_txt = rec["caja"]["nombre"] if rec["caja"] else "—"
+        notas = []
+        if rec["excede"]:
+            notas.append("⚠️ El pedido excede la caja más grande: probablemente se "
+                         "necesiten 2 o más cajas.")
+        if rec["sin_peso"]:
+            notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
+                         "cálculo es aproximado.")
+        nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
+        titulo("Envío", "uso interno")
+        st.markdown(
+            f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
+            f'<div class="caja">{caja_txt}</div>'
+            f'<div class="stats">'
+            f'<div class="st"><div class="l">Volumétrico</div>'
+            f'<div class="v">{fmt_peso(rec["total_vol"])}</div></div>'
+            f'<div class="st"><div class="l">Gramaje (real)</div>'
+            f'<div class="v">{fmt_peso(rec["total_real"])}</div></div>'
+            f'<div class="st"><div class="l">Peso a tomar</div>'
+            f'<div class="v">{fmt_peso(rec["facturable"])}</div></div>'
+            f'</div>{nota_html}</div>',
+            unsafe_allow_html=True)
+
+    # ------------------------------------------ exportar
+    if carrito:
+        with st.expander("📄 Descargar cotización (PDF o imagen)"):
+            cliente = st.text_input("Cliente", placeholder="Nombre del cliente")
+            folio = st.text_input("Folio", placeholder="COT-001")
+            fecha = st.date_input("Fecha", value=dt.date.today(), format="DD/MM/YYYY")
+
+            meta = {"cliente": cliente, "folio": folio,
+                    "fecha": fecha.strftime("%d/%m/%Y"),
+                    "lista": snap.get("lista_nombre", "Lista 5")}
+            filas = [{
+                "clave": cve, "descr": descr_por_clave.get(cve, ""), "linea": "",
+                "cant": int(c), "pu": precio_por_clave.get(cve, 0.0),
+                "importe": precio_por_clave.get(cve, 0.0) * int(c),
+            } for cve, c in carrito.items()]
+            base_nombre = f"cotizacion_{folio or fecha.strftime('%Y%m%d')}"
+
+            pdf_bytes = cotizacion_doc.construir_pdf(meta, filas, total, total)
+            png_bytes = cotizacion_doc.pdf_a_png(pdf_bytes)
+
+            d1, d2 = st.columns(2)
+            d1.download_button("⬇️ PDF", data=pdf_bytes, file_name=f"{base_nombre}.pdf",
+                               mime="application/pdf", use_container_width=True, type="primary")
+            if png_bytes:
+                d2.download_button("🖼️ Imagen", data=png_bytes, file_name=f"{base_nombre}.png",
+                                   mime="image/png", use_container_width=True)
 
 # --------------------------------------------------------------- barra fija
 if carrito:
