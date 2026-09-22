@@ -63,15 +63,25 @@ button[kind="secondary"] {
 }
 .stTextArea textarea { line-height:1.55; }
 
-/* Tabs tipo control segmentado */
-.stTabs [data-baseweb="tab-list"] { gap:8px; background:transparent; border-bottom:none; }
-.stTabs [data-baseweb="tab"] {
-  background:#E7EEF7; border-radius:11px; padding:10px 16px; border:none; color:var(--nav1);
+/* Tabs = control segmentado (pista gris, activa en blanco con texto azul) */
+[data-testid="stTabs"] [role="tablist"] {
+  display:inline-flex; width:auto; gap:4px; background:#E7EDF5;
+  border-radius:13px; padding:5px; border-bottom:none !important;
 }
-.stTabs [data-baseweb="tab"] p { font-size:.95rem; font-weight:700; margin:0; }
-.stTabs [aria-selected="true"] { background:linear-gradient(120deg,var(--nav1),var(--nav2)); }
-.stTabs [aria-selected="true"] p { color:#fff !important; }
-.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] { display:none; }
+[data-testid="stTabs"] [role="tablist"]::after,
+[data-testid="stTabs"] [role="tablist"]::before { display:none !important; content:none !important; }
+[data-testid="stTab"] {
+  height:auto; min-height:0; background:transparent; border:none !important;
+  border-radius:9px; padding:8px 18px; color:#5b6b7e; margin:0;
+}
+[data-testid="stTab"] p { font-size:.93rem; font-weight:700; margin:0; white-space:nowrap; }
+[data-testid="stTab"][aria-selected="true"] {
+  background:#fff; box-shadow:0 1px 4px rgba(20,40,70,.14); border:none !important;
+}
+[data-testid="stTab"][aria-selected="true"] p { color:var(--nav1) !important; }
+[data-testid="stTab"]:hover { color:var(--nav1); }
+/* Oculta el indicador azul (div hijo sin testid) que Streamlit pinta abajo. */
+[data-testid="stTab"] > div:not([data-testid="stMarkdownContainer"]) { display:none !important; }
 
 /* Hero minimal */
 .hero { padding:6px 2px 2px; }
