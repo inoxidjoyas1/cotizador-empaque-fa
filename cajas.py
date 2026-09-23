@@ -29,17 +29,22 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
     gram_merc = sum((it.get("peso_real") or 0.0) * it["cant"] for it in items)
     sin_peso = sum(1 for it in items if not it.get("peso_vol") and not it.get("peso_real"))
 
+    # Capacidad util de cada caja: override por caja (cap_util) o int_vol * factor.
+    def _cap(c):
+        cu = c.get("cap_util")
+        return cu if cu is not None else (c.get("int_vol") or 0.0) * factor
+
     cajas_ok = [c for c in cajas if c.get("int_vol")]
-    cajas_ok.sort(key=lambda c: c["int_vol"])
+    cajas_ok.sort(key=_cap)          # ordenadas por capacidad real ascendente
 
     caja = None
     excede = False
     for c in cajas_ok:
-        if vol_merc <= c["int_vol"] * factor:
+        if vol_merc <= _cap(c):
             caja = c
             break
     if caja is None and cajas_ok:
-        caja = cajas_ok[-1]          # la mas grande; probablemente necesite 2+
+        caja = cajas_ok[-1]          # la de mayor capacidad; probablemente 2+ cajas
         excede = True
 
     vol_caja = (caja.get("ext_vol") or 0.0) if caja else None

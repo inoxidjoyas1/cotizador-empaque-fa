@@ -17,6 +17,15 @@ FACTOR_VOL = 5000  # cm3 por kg volumetrico
 # Renombre de cajas (nombre viejo en el Excel -> nombre nuevo).
 RENOMBRAR_CAJA = {"CAJA 1.5 KG": "CAJA 1.3 KG"}
 
+# Capacidad util REAL por caja (en kg-volumetricos), cuando el 0.70 parejo no
+# refleja la realidad. Ej.: la de pizza es plana y ancha, aguanta mas producto
+# plano del que su volumen sugiere. Si una caja no esta aqui, se usa int_vol*0.70.
+# Calibrado con datos del usuario (2026-09-23): la de pizza mete 8-9 PB01
+# (9 x 0.0648 = 0.583) -> capacidad util ~0.60.
+CAP_UTIL_CAJA = {
+    "CAJA PIZZA 1 KG": 0.60,
+}
+
 # Clave SAE -> clave en el Excel de la que copia el peso.
 ALIAS = {
     "PD02": "PAD02", "PD03": "PAD03", "PD04": "PAD04",
@@ -87,7 +96,14 @@ def resolver_pesos(pesos: dict) -> dict:
     return p
 
 
-def renombrar_cajas(cajas: list[dict]) -> list[dict]:
+def ajustar_cajas(cajas: list[dict]) -> list[dict]:
+    """Renombra las cajas y fija su capacidad util override si aplica."""
     for c in cajas:
         c["nombre"] = RENOMBRAR_CAJA.get(c.get("nombre"), c.get("nombre"))
+        cap = CAP_UTIL_CAJA.get(c["nombre"])
+        c["cap_util"] = cap  # None si no hay override -> se usa int_vol*factor
     return cajas
+
+
+# alias compatible
+renombrar_cajas = ajustar_cajas

@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-23T11:14:43",
+ "generado": "2026-09-23T12:50:10",
  "lista_precio": 5,
  "lista_nombre": "Precio de lista 3",
  "lineas": [
@@ -25,7 +25,8 @@
    "h": 12.0,
    "extra": 0.114,
    "ext_vol": 0.8568,
-   "int_vol": 0.733
+   "int_vol": 0.733,
+   "cap_util": null
   },
   {
    "nombre": "CAJA PIZZA 1 KG",
@@ -34,7 +35,8 @@
    "h": 5.0,
    "extra": 0.115,
    "ext_vol": 0.93,
-   "int_vol": 0.74
+   "int_vol": 0.74,
+   "cap_util": 0.6
   },
   {
    "nombre": "CAJA 1.3 KG",
@@ -43,7 +45,8 @@
    "h": 17.0,
    "extra": 0.165,
    "ext_vol": 1.355,
-   "int_vol": 1.21
+   "int_vol": 1.21,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 1.7 KG",
@@ -52,7 +55,8 @@
    "h": 12.0,
    "extra": 0.185,
    "ext_vol": 1.785,
-   "int_vol": 1.569
+   "int_vol": 1.569,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 2 KG B",
@@ -61,7 +65,8 @@
    "h": 22.0,
    "extra": 0.175,
    "ext_vol": 1.94,
-   "int_vol": 1.73
+   "int_vol": 1.73,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 2.7 KG",
@@ -70,7 +75,8 @@
    "h": 17.0,
    "extra": 0.223,
    "ext_vol": 2.74,
-   "int_vol": 2.465
+   "int_vol": 2.465,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 3.4 KG",
@@ -79,7 +85,8 @@
    "h": 21.0,
    "extra": 0.265,
    "ext_vol": 3.385,
-   "int_vol": 3.074
+   "int_vol": 3.074,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 5 KG",
@@ -88,7 +95,8 @@
    "h": 22.0,
    "extra": 0.32,
    "ext_vol": 4.936,
-   "int_vol": 4.532
+   "int_vol": 4.532,
+   "cap_util": null
   },
   {
    "nombre": "CAJA 6 KG",
@@ -97,7 +105,8 @@
    "h": 22.0,
    "extra": 0.35,
    "ext_vol": 5.592,
-   "int_vol": 5.39
+   "int_vol": 5.39,
+   "cap_util": null
   }
  ],
  "factor_llenado": 0.7,
