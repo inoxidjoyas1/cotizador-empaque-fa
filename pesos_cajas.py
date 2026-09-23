@@ -18,9 +18,9 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-# Factor de aprovechamiento de la caja (no se llena al 100% por acomodo).
-# Mismo criterio que el cotizador de cajas ya probado.
-FACTOR_LLENADO = 0.70
+# Factor de aprovechamiento de la caja (cuanto del volumen interior se usa).
+# 0.85 = se llena al 85% (15% de holgura). Ajustable segun pruebas en campo.
+FACTOR_LLENADO = 0.85
 
 
 def _num(x):

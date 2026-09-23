@@ -29,10 +29,12 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
     gram_merc = sum((it.get("peso_real") or 0.0) * it["cant"] for it in items)
     sin_peso = sum(1 for it in items if not it.get("peso_vol") and not it.get("peso_real"))
 
-    # Capacidad util de cada caja: override por caja (cap_util) o int_vol * factor.
+    # Capacidad util de cada caja = int_vol * factor, con cap_util como PISO
+    # (minimo garantizado). Asi el override escala bien si cambia el factor.
     def _cap(c):
-        cu = c.get("cap_util")
-        return cu if cu is not None else (c.get("int_vol") or 0.0) * factor
+        base = (c.get("int_vol") or 0.0) * factor
+        piso = c.get("cap_util")
+        return max(base, piso) if piso is not None else base
 
     cajas_ok = [c for c in cajas if c.get("int_vol")]
     cajas_ok.sort(key=_cap)          # ordenadas por capacidad real ascendente

@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-23T13:54:49",
+ "generado": "2026-09-23T13:59:30",
  "lista_precio": 5,
  "lista_nombre": "Precio de lista 3",
  "lineas": [
@@ -110,7 +110,7 @@
    "cap_util": null
   }
  ],
- "factor_llenado": 0.7,
+ "factor_llenado": 0.85,
  "productos": [
   {
    "cve_art": "CAD01",
