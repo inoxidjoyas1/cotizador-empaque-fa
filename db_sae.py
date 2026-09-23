@@ -21,7 +21,7 @@ _ROOT = Path(__file__).resolve().parent
 load_dotenv(_ROOT / ".env")
 
 # Lineas de empaque a cotizar. F = cajas/kits, A = cubrepolvos.
-LINEAS = tuple(x.strip() for x in os.getenv("LINEAS", "F,A").split(",") if x.strip())
+LINEAS = tuple(x.strip() for x in os.getenv("LINEAS", "F,A,FA").split(",") if x.strip())
 
 # Nivel de lista de precios. El usuario lo llama "lista 5" = CVE_PRECIO 5
 # (SAE lo etiqueta internamente "Precio de lista 3"). Confirmado 2026-09-17.
