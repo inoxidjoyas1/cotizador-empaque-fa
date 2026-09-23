@@ -119,11 +119,12 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
 .envio .cap { color:#a07c22; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
 .envio .caja { font-size:1.3rem; font-weight:800; color:#7a5a12; margin-top:2px; }
 .envio .brk { margin-top:12px; background:#fff; border:1px solid #EFE1BE; border-radius:11px; overflow:hidden; }
-.envio .brow { display:flex; align-items:baseline; gap:8px; padding:9px 12px; }
+.envio .brow { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:9px 12px; }
 .envio .brow + .brow { border-top:1px solid #F0E6CC; }
-.envio .brow .bk { flex:0 0 66px; color:#a08a58; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.3px; }
-.envio .brow .bm { flex:1; color:#9a8a68; font-size:.85rem; }
-.envio .brow .bx { color:#5a4a20; font-weight:800; font-size:1rem; white-space:nowrap; }
+.envio .brow .bl2 { color:#8a7648; font-size:.85rem; }
+.envio .brow .bv2 { color:#5a4a20; font-weight:800; font-size:1rem; white-space:nowrap; }
+.envio .brow.hl { background:#FBF3DC; }
+.envio .brow.hl .bl2 { color:#7a5a12; font-weight:700; }
 .envio .tomar { margin-top:12px; background:#FCEFC7; border:1px solid #E7C766; border-radius:12px;
   padding:12px 14px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; }
 .envio .tomar .tl { color:#8a6a12; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.4px; flex:0 0 100%; }
@@ -309,25 +310,32 @@ with col_ped:
         if rec["sin_peso"]:
             notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
                          "cálculo es aproximado.")
+        extra_caja = (rec["caja"].get("extra") or 0.0) if rec["caja"] else 0.0
         manda = ("el volumen de la caja"
                  if (rec["vol_caja"] or 0) >= (rec["gram_total"] or 0)
                  else "el gramaje (mercancía + caja)")
         nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
+
+        def _fila(lbl, val, hl=False):
+            return (f'<div class="brow{" hl" if hl else ""}">'
+                    f'<span class="bl2">{lbl}</span>'
+                    f'<span class="bv2">{fmt_peso(val)}</span></div>')
+
         titulo("Envío", "uso interno")
         st.markdown(
             f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
             f'<div class="caja">{caja_txt}</div>'
             f'<div class="brk">'
-            f'<div class="brow"><span class="bk">Volumen</span>'
-            f'<span class="bm">mercancía {fmt_peso(rec["vol_merc"])}</span>'
-            f'<span class="bx">caja {fmt_peso(rec["vol_caja"])}</span></div>'
-            f'<div class="brow"><span class="bk">Gramaje</span>'
-            f'<span class="bm">mercancía {fmt_peso(rec["gram_merc"])}</span>'
-            f'<span class="bx">+ caja {fmt_peso(rec["gram_total"])}</span></div>'
-            f'</div>'
+            + _fila("Volumen mercancía", rec["vol_merc"])
+            + _fila("Volumen caja de envío", rec["vol_caja"], hl=True)
+            + _fila("Gramaje mercancía", rec["gram_merc"])
+            + _fila("Gramaje mercancía + caja", rec["gram_total"], hl=True)
+            + '</div>'
+            f'<div class="note">Peso extra de la caja: {fmt_peso(extra_caja)} '
+            f'(ya sumado al gramaje con caja).</div>'
             f'<div class="tomar"><div class="tl">Peso a tomar</div>'
             f'<div class="tv">{fmt_peso(rec["facturable"])}</div>'
-            f'<div class="tn">manda {manda}</div></div>'
+            f'<div class="tn">el mayor · manda {manda}</div></div>'
             f'{nota_html}</div>',
             unsafe_allow_html=True)
 
