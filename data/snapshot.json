@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-22T15:22:50",
+ "generado": "2026-09-23T11:14:43",
  "lista_precio": 5,
  "lista_nombre": "Precio de lista 3",
  "lineas": [
@@ -9,25 +9,13 @@
  "n_productos": 65,
  "sin_precio": [],
  "sin_peso": [
-  "PD02",
-  "PD03",
-  "PD04",
-  "PE10",
   "PJ02",
   "PJ03",
-  "PK01",
-  "PK07",
-  "PK08",
-  "PK09",
-  "PKI08",
-  "PKI09",
-  "RD02",
   "SB01",
   "SC01",
   "SD01",
   "SE01",
-  "SKI01",
-  "UD01"
+  "SKI01"
  ],
  "cajas": [
   {
@@ -49,7 +37,7 @@
    "int_vol": 0.74
   },
   {
-   "nombre": "CAJA 1.5 KG",
+   "nombre": "CAJA 1.3 KG",
    "l": 26.0,
    "a": 21.0,
    "h": 17.0,
@@ -58,7 +46,7 @@
    "int_vol": 1.21
   },
   {
-   "nombre": "CAJA 1.7",
+   "nombre": "CAJA 1.7 KG",
    "l": 31.0,
    "a": 24.0,
    "h": 12.0,
@@ -311,24 +299,24 @@
    "descr": "CUBREPOLVOS NEGRO",
    "linea": "F",
    "precio": 17.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.00537,
+   "peso_real": 0.00454
   },
   {
    "cve_art": "PD03",
    "descr": "CUBREPOLVOS CUADRADO",
    "linea": "F",
    "precio": 18.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.00458,
+   "peso_real": 0.00506
   },
   {
    "cve_art": "PD04",
    "descr": "CUBREPOLVOS NEGRO GR",
    "linea": "F",
    "precio": 15.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.00635,
+   "peso_real": 0.00455
   },
   {
    "cve_art": "PE01",
@@ -407,7 +395,7 @@
    "descr": "ETIQUETA CUADRADA",
    "linea": "F",
    "precio": 3.0,
-   "peso_vol": null,
+   "peso_vol": 0.00045,
    "peso_real": null
   },
   {
@@ -455,32 +443,32 @@
    "descr": "KIT BLANDA PULSERA",
    "linea": "F",
    "precio": 125.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.18602,
+   "peso_real": 0.10144
   },
   {
    "cve_art": "PK07",
    "descr": "KIT BLANDA ANILLO CHICA",
    "linea": "F",
    "precio": 100.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.05913,
+   "peso_real": 0.05166
   },
   {
    "cve_art": "PK08",
    "descr": "KIT DURA PULSERA 2",
    "linea": "F",
    "precio": 135.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.21587,
+   "peso_real": 0.15818
   },
   {
    "cve_art": "PK09",
    "descr": "KIT DURA ANILLO 2",
    "linea": "F",
    "precio": 125.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.16671,
+   "peso_real": 0.11318
   },
   {
    "cve_art": "PKI01",
@@ -543,16 +531,16 @@
    "descr": "KIT DURA PULSERA 2",
    "linea": "F",
    "precio": 135.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.21587,
+   "peso_real": 0.15818
   },
   {
    "cve_art": "PKI09",
    "descr": "KIT DURA ANILLO 2",
    "linea": "F",
    "precio": 125.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.16671,
+   "peso_real": 0.11318
   },
   {
    "cve_art": "RD01",
@@ -567,8 +555,8 @@
    "descr": "CUBREPOLVOS TOUS GR",
    "linea": "F",
    "precio": 18.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.01661,
+   "peso_real": 0.00677
   },
   {
    "cve_art": "SB01",
@@ -615,8 +603,8 @@
    "descr": "CUBREPOLVOS TIFFANY",
    "linea": "F",
    "precio": 16.0,
-   "peso_vol": null,
-   "peso_real": null
+   "peso_vol": 0.00773,
+   "peso_real": 0.005
   },
   {
    "cve_art": "VK01",

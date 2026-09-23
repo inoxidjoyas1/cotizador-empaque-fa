@@ -25,6 +25,7 @@ import sys
 from pathlib import Path
 
 import db_sae
+import overrides_pesos
 import pesos_cajas
 
 AQUI = Path(__file__).resolve().parent
@@ -72,6 +73,9 @@ def construir_snapshot() -> dict:
     sin_peso: list = []
     try:
         pesos, cajas = pesos_cajas.leer(EXCEL_CAJAS)
+        # Reglas de negocio (alias, kits, dims, renombre de caja) sin tocar el Excel.
+        pesos = overrides_pesos.resolver_pesos(pesos)
+        cajas = overrides_pesos.renombrar_cajas(cajas)
         for p in productos:
             info = pesos.get(p["cve_art"].upper())
             p["peso_vol"] = info.get("peso_vol") if info else None
