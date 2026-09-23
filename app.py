@@ -118,6 +118,10 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
   border-radius:16px; padding:14px 16px; }
 .envio .cap { color:#a07c22; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
 .envio .caja { font-size:1.3rem; font-weight:800; color:#7a5a12; margin-top:2px; }
+.envio .ocu { margin-top:10px; }
+.envio .ocu-bar { height:9px; background:#EFE1BE; border-radius:6px; overflow:hidden; }
+.envio .ocu-bar > span { display:block; height:100%; border-radius:6px; transition:width .2s; }
+.envio .ocu-txt { font-size:.78rem; font-weight:700; margin-top:5px; }
 .envio .brk { margin-top:12px; background:#fff; border:1px solid #EFE1BE; border-radius:11px; overflow:hidden; }
 .envio .brow { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:9px 12px; }
 .envio .brow + .brow { border-top:1px solid #F0E6CC; }
@@ -321,10 +325,25 @@ with col_ped:
                     f'<span class="bl2">{lbl}</span>'
                     f'<span class="bv2">{fmt_peso(val)}</span></div>')
 
+        # Semaforo de ocupacion de la caja.
+        oc = rec.get("ocupacion") or 0.0
+        pct = min(int(round(oc * 100)), 100)
+        if rec["excede"]:
+            oc_col, oc_msg = "#d1494a", "No cabe en una sola caja — probablemente 2 o más"
+        elif oc >= 0.90:
+            oc_col, oc_msg = "#d99a1f", "Va justa · si lleva algo voluminoso, sube a la siguiente"
+        else:
+            oc_col, oc_msg = "#3f9e57", "Espacio holgado"
+        ocu_html = (
+            f'<div class="ocu"><div class="ocu-bar">'
+            f'<span style="width:{pct}%;background:{oc_col}"></span></div>'
+            f'<div class="ocu-txt" style="color:{oc_col}">Ocupación ~{pct}% · {oc_msg}</div></div>')
+
         titulo("Envío", "uso interno")
         st.markdown(
             f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
             f'<div class="caja">{caja_txt}</div>'
+            f'{ocu_html}'
             f'<div class="brk">'
             + _fila("Volumen mercancía", rec["vol_merc"])
             + _fila("Volumen caja de envío", rec["vol_caja"], hl=True)

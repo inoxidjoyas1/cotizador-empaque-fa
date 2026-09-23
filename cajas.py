@@ -53,6 +53,10 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
     if caja:
         facturable = max(vol_caja, gram_total)
 
+    # Ocupacion = cuanto del cupo util de la caja usa el pedido (0..1+).
+    cap_caja = _cap(caja) if caja else None
+    ocupacion = (vol_merc / cap_caja) if cap_caja else None
+
     return {
         "vol_merc": round(vol_merc, 3),
         "vol_caja": None if vol_caja is None else round(vol_caja, 3),
@@ -62,4 +66,6 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
         "sin_peso": sin_peso,
         "caja": caja,
         "excede": excede,
+        "cap_caja": None if cap_caja is None else round(cap_caja, 3),
+        "ocupacion": None if ocupacion is None else round(ocupacion, 3),
     }
