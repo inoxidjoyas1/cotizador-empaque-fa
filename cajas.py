@@ -5,10 +5,11 @@ y el catalogo de cajas). No lee el Excel: eso lo hace refrescar_precios.py en la
 oficina. Por eso funciona en la nube.
 
 - La caja recomendada = la mas chica cuyo espacio interior util (int_vol * factor)
-  alcance para el volumen total del pedido (aprox. volumetrico, sin 3D).
-- El 'peso a tomar' (con el que se cotiza el envio) = el MAYOR entre el peso
-  volumetrico y el gramaje (peso real) de la mercancia, igual que la columna
-  "PESO A TOMAR" del Excel. NO depende de la caja.
+  alcance para el volumen total de la mercancia (aprox. volumetrico, sin 3D).
+- El volumen que cuenta para el envio es el de la CAJA (ahi se guarda), no el de
+  la mercancia suelta. El gramaje del envio = mercancia + peso de la caja.
+- 'Peso a tomar' (con el que se cotiza) = el MAYOR entre el VOLUMEN DE LA CAJA y
+  el GRAMAJE (mercancia + caja).
 """
 from __future__ import annotations
 
@@ -16,11 +17,16 @@ from __future__ import annotations
 def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> dict:
     """items: [{'peso_vol': float|None, 'peso_real': float|None, 'cant': int}].
 
-    Devuelve dict con total_vol, total_real, sin_peso (cuantos renglones sin dato),
-    caja (dict o None), excede (bool) y facturable = max(total_vol, total_real).
+    Devuelve:
+      vol_merc   = volumen (peso volumetrico) de la mercancia
+      vol_caja   = volumen (peso volumetrico) de la caja de envio (exterior)
+      gram_merc  = gramaje (peso real) de la mercancia
+      gram_total = gramaje de la mercancia + peso de la caja
+      facturable = max(vol_caja, gram_total)  -> peso a tomar
+      sin_peso, caja, excede
     """
-    total_vol = sum((it.get("peso_vol") or 0.0) * it["cant"] for it in items)
-    total_real = sum((it.get("peso_real") or 0.0) * it["cant"] for it in items)
+    vol_merc = sum((it.get("peso_vol") or 0.0) * it["cant"] for it in items)
+    gram_merc = sum((it.get("peso_real") or 0.0) * it["cant"] for it in items)
     sin_peso = sum(1 for it in items if not it.get("peso_vol") and not it.get("peso_real"))
 
     cajas_ok = [c for c in cajas if c.get("int_vol")]
@@ -29,21 +35,26 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
     caja = None
     excede = False
     for c in cajas_ok:
-        if total_vol <= c["int_vol"] * factor:
+        if vol_merc <= c["int_vol"] * factor:
             caja = c
             break
     if caja is None and cajas_ok:
         caja = cajas_ok[-1]          # la mas grande; probablemente necesite 2+
         excede = True
 
-    # Peso a tomar = el mayor entre volumetrico y gramaje (real) de la mercancia.
-    facturable = max(total_vol, total_real)
+    vol_caja = (caja.get("ext_vol") or 0.0) if caja else None
+    gram_total = gram_merc + ((caja.get("extra") or 0.0) if caja else 0.0)
+    facturable = None
+    if caja:
+        facturable = max(vol_caja, gram_total)
 
     return {
-        "total_vol": round(total_vol, 3),
-        "total_real": round(total_real, 3),
+        "vol_merc": round(vol_merc, 3),
+        "vol_caja": None if vol_caja is None else round(vol_caja, 3),
+        "gram_merc": round(gram_merc, 3),
+        "gram_total": round(gram_total, 3),
+        "facturable": None if facturable is None else round(facturable, 3),
         "sin_peso": sin_peso,
         "caja": caja,
         "excede": excede,
-        "facturable": round(facturable, 3),
     }

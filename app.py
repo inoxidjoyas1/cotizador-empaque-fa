@@ -118,13 +118,17 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
   border-radius:16px; padding:14px 16px; }
 .envio .cap { color:#a07c22; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; }
 .envio .caja { font-size:1.3rem; font-weight:800; color:#7a5a12; margin-top:2px; }
-.envio .stats { display:flex; gap:10px; margin-top:12px; }
-.envio .st { flex:1; background:#fff; border:1px solid #EFE1BE; border-radius:11px; padding:8px 10px; }
-.envio .st .l { color:#a08a58; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
-.envio .st .v { color:#5a4a20; font-weight:800; font-size:1.02rem; margin-top:1px; }
-.envio .st.sub { background:#FCEFC7; border-color:#E7C766; }
-.envio .st.sub .l { color:#8a6a12; }
-.envio .st.sub .v { color:#6a4e0e; }
+.envio .brk { margin-top:12px; background:#fff; border:1px solid #EFE1BE; border-radius:11px; overflow:hidden; }
+.envio .brow { display:flex; align-items:baseline; gap:8px; padding:9px 12px; }
+.envio .brow + .brow { border-top:1px solid #F0E6CC; }
+.envio .brow .bk { flex:0 0 66px; color:#a08a58; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.3px; }
+.envio .brow .bm { flex:1; color:#9a8a68; font-size:.85rem; }
+.envio .brow .bx { color:#5a4a20; font-weight:800; font-size:1rem; white-space:nowrap; }
+.envio .tomar { margin-top:12px; background:#FCEFC7; border:1px solid #E7C766; border-radius:12px;
+  padding:12px 14px; display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 10px; }
+.envio .tomar .tl { color:#8a6a12; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.4px; flex:0 0 100%; }
+.envio .tomar .tv { color:#6a4e0e; font-weight:800; font-size:1.55rem; line-height:1; }
+.envio .tomar .tn { color:#a07c22; font-size:.8rem; }
 .envio .note { color:#a07c22; font-size:.78rem; margin-top:10px; }
 
 /* Barra de total fija abajo */
@@ -305,22 +309,26 @@ with col_ped:
         if rec["sin_peso"]:
             notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
                          "cálculo es aproximado.")
-        mayor = "volumétrico" if rec["total_vol"] >= rec["total_real"] else "gramaje"
-        notas.insert(0, f"Cotiza el envío con el <b>peso a tomar</b> "
-                        f"(el mayor: aquí manda el <b>{mayor}</b>).")
+        manda = ("el volumen de la caja"
+                 if (rec["vol_caja"] or 0) >= (rec["gram_total"] or 0)
+                 else "el gramaje (mercancía + caja)")
         nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
         titulo("Envío", "uso interno")
         st.markdown(
             f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
             f'<div class="caja">{caja_txt}</div>'
-            f'<div class="stats">'
-            f'<div class="st"><div class="l">Volumétrico</div>'
-            f'<div class="v">{fmt_peso(rec["total_vol"])}</div></div>'
-            f'<div class="st"><div class="l">Gramaje (real)</div>'
-            f'<div class="v">{fmt_peso(rec["total_real"])}</div></div>'
-            f'<div class="st sub"><div class="l">Peso a tomar</div>'
-            f'<div class="v">{fmt_peso(rec["facturable"])}</div></div>'
-            f'</div>{nota_html}</div>',
+            f'<div class="brk">'
+            f'<div class="brow"><span class="bk">Volumen</span>'
+            f'<span class="bm">mercancía {fmt_peso(rec["vol_merc"])}</span>'
+            f'<span class="bx">caja {fmt_peso(rec["vol_caja"])}</span></div>'
+            f'<div class="brow"><span class="bk">Gramaje</span>'
+            f'<span class="bm">mercancía {fmt_peso(rec["gram_merc"])}</span>'
+            f'<span class="bx">+ caja {fmt_peso(rec["gram_total"])}</span></div>'
+            f'</div>'
+            f'<div class="tomar"><div class="tl">Peso a tomar</div>'
+            f'<div class="tv">{fmt_peso(rec["facturable"])}</div>'
+            f'<div class="tn">manda {manda}</div></div>'
+            f'{nota_html}</div>',
             unsafe_allow_html=True)
 
     # ------------------------------------------ exportar
