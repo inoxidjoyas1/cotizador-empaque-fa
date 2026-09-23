@@ -24,11 +24,74 @@ MATCH_THRESHOLD = 72
 _STOPWORDS = {"de", "la", "el", "un", "una", "con", "para", "y", "por", "pieza",
               "piezas", "pza", "pzas", "pzs", "pz", "unidad", "unidades", "ud", "uds"}
 
+# Sinonimos / apodos -> palabra que SI aparece en la descripcion del producto.
+# Clave = termino canonico (como esta en el catalogo); valor = formas de decirlo.
+# Se aplican al texto ANTES de emparejar, para que "morral cartier" halle el
+# "CUBREPOLVO CARTIER". Ampliable: agrega mas apodos aqui.
+_SINONIMOS = {
+    "cubrepolvo": ["morral", "morrales", "morralito", "morralitos", "guardapolvo",
+                   "guardapolvos", "funda", "fundas", "fundita", "funditas", "cubre",
+                   "cubrepolvos", "bolsa de tela", "bolsita de tela", "saco", "saquito"],
+    "manta pulidora": ["pano", "panos", "panito", "tela", "telas", "franela",
+                       "franelas", "trapo", "trapito", "pulidor", "pulidora",
+                       "pano pulidor", "tela pulidora", "limpiador"],
+    "caja": ["estuche", "estuches", "cajita", "cajitas", "cajas", "box", "cajton"],
+    "kit": ["juego", "juegos", "set", "sets", "combo", "combos", "paquete",
+            "paquetes", "conjunto"],
+    "bolsa": ["bolsita", "bolsitas", "bolsas", "bolso", "bolsos"],
+    "joyero": ["cofre", "cofres", "alhajero", "alhajera", "joyerito", "joyeritos",
+               "joyeros", "joyera"],
+    "etiqueta": ["tag", "tags", "etiquetita", "etiquetitas", "etiquetas"],
+    "tarjeta": ["tarjetita", "tarjetitas", "tarjetas", "carta"],
+    "instructivo": ["manual", "manuales", "instrucciones", "instructivos", "instruccion"],
+    "sticker": ["calcomania", "calcomanias", "pegatina", "pegatinas", "engomado",
+                "engomados", "estampa", "estampas", "stickers", "calca"],
+    "lima": ["limita", "limitas", "limador", "limas", "limadora"],
+    "certificados": ["certificado", "certif", "certificacion", "certificaciones"],
+    "papel": ["papeles", "hoja", "hojas"],
+    "pulsera": ["brazalete", "brazaletes", "pulseras", "esclava", "esclavas",
+                "pulserita", "pulseritas"],
+    "anillo": ["anillos", "aro", "aros", "sortija", "sortijas", "anillito", "anillitos"],
+    "blanda": ["suave", "suaves", "flexible", "flexibles", "blandas"],
+    "dura": ["rigida", "rigidas", "duras", "rigido"],
+    "rosa": ["rosada", "rosado", "rosados", "rosadas", "pink"],
+    "chica": ["chico", "chicos", "chicas", "pequeno", "pequena", "pequenos",
+              "pequenas", "peque", "chiquita", "chiquito", "mini", "cch"],
+    "gr": ["grande", "grandes", "gde", "gdes", "gd"],
+    # marcas / abreviaturas
+    "louis vuitton": ["lv", "louisvuitton", "luis vuitton", "vuitton"],
+    "van cleef": ["vc", "vancleef", "vancleff", "vancleef", "cleef", "van cliff"],
+    "swarovski": ["swaro", "swarovsky", "suarovski", "swarowski", "svarovski", "swarosky"],
+    "tiffany": ["tiff", "tifany", "tifani", "tiffani", "tifanny", "tiffani & co"],
+    "cartier": ["cartie", "cartir", "cartiier", "kartier"],
+    "pandora": ["pandra", "pandoras", "pndora"],
+    "chanel": ["chanell", "canel", "channel", "chanelle"],
+    "dior": ["diior", "dyor"],
+}
+
 
 def _norm(text: str) -> str:
     text = unicodedata.normalize("NFKD", str(text))
     text = "".join(c for c in text if not unicodedata.combining(c))
     return text.lower().strip()
+
+
+# Mapa invertido {apodo_normalizado: termino_canonico_normalizado}, listo para usar.
+_SYN = {}
+for _canon, _lista in _SINONIMOS.items():
+    for _s in _lista:
+        _SYN[_norm(_s)] = _norm(_canon)
+
+
+def _aplicar_sinonimos(query: str) -> str:
+    """Reemplaza apodos por el termino canonico. Maneja frases de 2 palabras."""
+    q = query
+    # frases de dos palabras primero (p.ej. 'bolsa de tela', 'pano pulidor')
+    for apodo, canon in _SYN.items():
+        if " " in apodo and apodo in q:
+            q = q.replace(apodo, canon)
+    # luego palabra por palabra
+    return " ".join(_SYN.get(tok, tok) for tok in q.split())
 
 
 def _strip_bullets(line: str) -> str:
@@ -82,7 +145,7 @@ def _match(text: str, cat: _Cat) -> tuple[dict | None, float, str]:
     for tok in re.findall(r"[A-Za-z]{1,4}\d{1,3}", text):
         if tok.upper() in cat.by_clave:
             return cat.by_clave[tok.upper()], 100.0, "clave"
-    query = _clean_article_text(text)
+    query = _aplicar_sinonimos(_clean_article_text(text))
     if not query:
         return None, 0.0, ""
     # 2) difuso contra "clave descripcion"
