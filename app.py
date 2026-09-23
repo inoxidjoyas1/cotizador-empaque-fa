@@ -122,6 +122,9 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
 .envio .st { flex:1; background:#fff; border:1px solid #EFE1BE; border-radius:11px; padding:8px 10px; }
 .envio .st .l { color:#a08a58; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.3px; }
 .envio .st .v { color:#5a4a20; font-weight:800; font-size:1.02rem; margin-top:1px; }
+.envio .st.sub { background:#FCEFC7; border-color:#E7C766; }
+.envio .st.sub .l { color:#8a6a12; }
+.envio .st.sub .v { color:#6a4e0e; }
 .envio .note { color:#a07c22; font-size:.78rem; margin-top:10px; }
 
 /* Barra de total fija abajo */
@@ -302,6 +305,9 @@ with col_ped:
         if rec["sin_peso"]:
             notas.append(f"ℹ️ {rec['sin_peso']} producto(s) sin peso registrado: el "
                          "cálculo es aproximado.")
+        mayor = "volumétrico" if rec["total_vol"] >= rec["total_real"] else "gramaje"
+        notas.insert(0, f"Cotiza el envío con el <b>peso a tomar</b> "
+                        f"(el mayor: aquí manda el <b>{mayor}</b>).")
         nota_html = "".join(f'<div class="note">{n}</div>' for n in notas)
         titulo("Envío", "uso interno")
         st.markdown(
@@ -312,7 +318,7 @@ with col_ped:
             f'<div class="v">{fmt_peso(rec["total_vol"])}</div></div>'
             f'<div class="st"><div class="l">Gramaje (real)</div>'
             f'<div class="v">{fmt_peso(rec["total_real"])}</div></div>'
-            f'<div class="st"><div class="l">Peso a tomar</div>'
+            f'<div class="st sub"><div class="l">Peso a tomar</div>'
             f'<div class="v">{fmt_peso(rec["facturable"])}</div></div>'
             f'</div>{nota_html}</div>',
             unsafe_allow_html=True)
