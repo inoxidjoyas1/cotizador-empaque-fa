@@ -19,9 +19,12 @@ import re
 from pathlib import Path
 
 # Factor de aprovechamiento de la caja (cuanto del volumen interior se usa).
-# 0.75 = se llena al 75% (25% de holgura). Punto medio: el dato real de PB01 en
-# la caja 1KG pinta ~0.65-0.70; 0.85 sobreestima. Ajustable segun pruebas.
-FACTOR_LLENADO = 0.75
+# 0.60 = conservador, calibrado al peor caso conocido (6 PB01 en la 1KG = ~53%
+# de llenado). Un solo factor NO puede ser correcto para todos los productos
+# (cada uno acomoda distinto); se elige conservador para errar hacia caja de mas
+# (que cabe) y no hacia una donde no entra. Lo fino se hace por producto (ver
+# overrides_pesos) o con acomodo 3D.
+FACTOR_LLENADO = 0.60
 
 
 def _num(x):
