@@ -19,8 +19,9 @@ import re
 from pathlib import Path
 
 # Factor de aprovechamiento de la caja (cuanto del volumen interior se usa).
-# 0.85 = se llena al 85% (15% de holgura). Ajustable segun pruebas en campo.
-FACTOR_LLENADO = 0.85
+# 0.75 = se llena al 75% (25% de holgura). Punto medio: el dato real de PB01 en
+# la caja 1KG pinta ~0.65-0.70; 0.85 sobreestima. Ajustable segun pruebas.
+FACTOR_LLENADO = 0.75
 
 
 def _num(x):
