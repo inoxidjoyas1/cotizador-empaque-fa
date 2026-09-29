@@ -55,9 +55,12 @@ def recomendar(items: list[dict], cajas: list[dict], factor: float = 0.70) -> di
     if caja:
         facturable = max(vol_caja, gram_total)
 
-    # Ocupacion = cuanto del cupo util de la caja usa el pedido (0..1+).
+    # Ocupacion = llenado FISICO real de la caja (vol mercancia / volumen interior
+    # de la caja), no contra el cupo derateado. Asi el % coincide con lo que se ve:
+    # mas holgura -> caja mas grande -> % mas bajo.
     cap_caja = _cap(caja) if caja else None
-    ocupacion = (vol_merc / cap_caja) if cap_caja else None
+    int_caja = caja.get("int_vol") if caja else None
+    ocupacion = (vol_merc / int_caja) if int_caja else None
 
     return {
         "vol_merc": round(vol_merc, 3),
