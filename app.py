@@ -316,10 +316,18 @@ with col_ped:
 
     # ------------------------------------------ envio (uso interno)
     if carrito and cajas_cat:
+        titulo("Envío", "uso interno")
+        holg = st.slider(
+            "Holgura de la caja (↑ más justo · ↓ más holgado)",
+            min_value=55, max_value=100, value=70, step=5, format="%d%%",
+            key="holgura_pct",
+            help="Ajusta por pedido: súbelo para cajas más justas cuando el "
+                 "producto acomoda bien; bájalo para dejar más holgura.")
+        factor_pedido = holg / 100
         items = [{"peso_vol": pesovol_por_clave.get(cve),
                   "peso_real": pesoreal_por_clave.get(cve), "cant": int(c)}
                  for cve, c in carrito.items()]
-        rec = cajas_mod.recomendar(items, cajas_cat, factor_llenado)
+        rec = cajas_mod.recomendar(items, cajas_cat, factor_pedido)
         caja_txt = rec["caja"]["nombre"] if rec["caja"] else "—"
         notas = []
         if rec["excede"]:
@@ -353,7 +361,6 @@ with col_ped:
             f'<span style="width:{pct}%;background:{oc_col}"></span></div>'
             f'<div class="ocu-txt" style="color:{oc_col}">Ocupación ~{pct}% · {oc_msg}</div></div>')
 
-        titulo("Envío", "uso interno")
         st.markdown(
             f'<div class="envio"><div class="cap">📦 Caja recomendada</div>'
             f'<div class="caja">{caja_txt}</div>'
