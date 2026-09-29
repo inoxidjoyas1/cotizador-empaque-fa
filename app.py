@@ -107,6 +107,14 @@ div[data-testid="stVerticalBlockBorderWrapper"] > div { padding:4px 6px; }
 .itxt .uni { color:var(--muted); font-size:.8rem; margin-top:4px; }
 .itxt .imp { color:var(--nav1); font-weight:800; font-size:1.18rem; text-align:right; line-height:1.9; }
 
+/* Total de la venta (debajo del pedido) */
+.totalcard { display:flex; justify-content:space-between; align-items:center; gap:10px;
+  background:linear-gradient(135deg,#F1F9EE,#DFF0D6); border:1px solid #BBE0A9;
+  border-radius:14px; padding:14px 18px; margin:4px 0 12px; box-shadow:0 2px 10px rgba(20,40,70,.05); }
+.totalcard .tl { color:#2f6b2f; font-weight:800; font-size:.95rem; }
+.totalcard .tl span { color:#6f9a6f; font-weight:600; font-size:.76rem; }
+.totalcard .tv { color:#2f7d32; font-weight:800; font-size:1.7rem; line-height:1; white-space:nowrap; }
+
 /* Estado vacio */
 .empty { text-align:center; color:var(--muted); padding:22px 16px; }
 .empty .em { font-size:2rem; }
@@ -293,6 +301,12 @@ with col_ped:
                     carrito.pop(cve, None)
                     st.session_state.pop(f"q_{cve}", None)
                     st.rerun()
+
+        st.markdown(
+            f'<div class="totalcard"><div class="tl">Total de la venta '
+            f'<span>· sin IVA · {piezas} pzas</span></div>'
+            f'<div class="tv">${total:,.2f}</div></div>',
+            unsafe_allow_html=True)
 
         if st.button("Vaciar pedido", use_container_width=True):
             st.session_state["carrito"] = {}
