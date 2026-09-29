@@ -40,7 +40,7 @@ html, body, [class*="css"], .stMarkdown, button, input, textarea, select {
   font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif !important;
 }
 .stApp { background:#F5F8FC; }
-.block-container { padding-top:.7rem; padding-bottom:7rem; max-width:1040px; }
+.block-container { padding-top:.7rem; padding-bottom:2rem; max-width:1040px; }
 #MainMenu, footer, header {visibility:hidden;}
 /* En PC los dos paneles quedan pegados arriba; en celular se apilan solos. */
 div[data-testid="stHorizontalBlock"] { align-items:flex-start; }
@@ -398,13 +398,5 @@ with col_ped:
             if png_bytes:
                 d2.download_button("🖼️ Imagen", data=png_bytes, file_name=f"{base_nombre}.png",
                                    mime="image/png", use_container_width=True)
-
-# --------------------------------------------------------------- barra fija
-if carrito:
-    st.markdown(
-        f'<div class="sticky-wrap"><div class="sticky-bar">'
-        f'<div class="l">{piezas} piezas · {n_prod} productos</div>'
-        f'<div class="r"><span>Total sin IVA</span><b>${total:,.2f}</b></div>'
-        f'</div></div>', unsafe_allow_html=True)
 
 st.caption(f"Precios actualizados al {gen_fmt}.")
