@@ -120,6 +120,13 @@ def _extract_qty(text: str) -> tuple[int, str]:
     m = re.match(r"^(.*\S)\s+(\d+)$", text)
     if m:
         return max(int(m.group(2)), 1), m.group(1).strip()
+    # 'PE09 4 papelitos' / 'PA04 4 cajas': numero suelto EN MEDIO = cantidad.
+    # El lookaround evita confundir los digitos pegados a una clave (PE09, PAD03).
+    m = re.search(r"(?<![A-Za-z0-9])(\d+)(?![A-Za-z0-9])", text)
+    if m:
+        qty = int(m.group(1))
+        text = (text[:m.start()] + " " + text[m.end():]).strip()
+        return max(qty, 1), text
     return 1, text.strip()
 
 
